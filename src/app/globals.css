@@ -71,7 +71,9 @@
     --neutral-950: 252 253 255;
   }
 
-  *, ::before, ::after {
+  *,
+  ::before,
+  ::after {
     border-color: rgb(var(--border) / 0.35);
   }
 
@@ -96,7 +98,7 @@
 @layer components {
   /* Example: <h1 className="text-h1 text-brand-foreground">Hero Title</h1> */
   .text-h1 {
-    @apply text-4xl font-semibold leading-tight tracking-tight sm:text-5xl lg:text-6xl;
+    @apply text-4xl leading-tight font-semibold tracking-tight sm:text-5xl lg:text-6xl;
   }
   /* Example: <h2 className="text-h2">Section heading</h2> */
   .text-h2 {
@@ -108,11 +110,11 @@
   }
   /* Example: <p className="text-lead">Lead paragraph copy.</p> */
   .text-lead {
-    @apply text-lg font-medium leading-relaxed text-neutral-600 dark:text-neutral-300 sm:text-xl;
+    @apply text-lg leading-relaxed font-medium text-neutral-600 sm:text-xl dark:text-neutral-300;
   }
   /* Example: <p className="text-small">Caption or helper text.</p> */
   .text-small {
-    @apply text-xs font-medium uppercase tracking-[0.3em] text-neutral-500 dark:text-neutral-400;
+    @apply text-xs font-medium tracking-[0.3em] text-neutral-500 uppercase dark:text-neutral-400;
   }
   /* Example: <p className="text-muted">Muted supporting copy.</p> */
   .text-muted {

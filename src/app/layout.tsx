@@ -65,7 +65,7 @@ export default function RootLayout({
       <head>{defaultSeoTags}</head>
       <body
         className={cn(
-          "bg-background text-foreground antialiased",
+          "bg-background text-foreground flex justify-center antialiased",
           geistSans.variable,
           geistMono.variable,
         )}
@@ -74,12 +74,14 @@ export default function RootLayout({
         <div className="relative flex min-h-screen flex-col">
           <Navbar />
           <main className="flex-1">{children}</main>
-          <footer className="border-t border-border/40">
-            <div className="container flex flex-col items-center justify-between gap-4 py-8 text-sm text-neutral-500 dark:text-neutral-400 md:flex-row">
-              <span>&copy; {new Date().getFullYear()} Yunsu. All rights reserved.</span>
+          <footer className="border-border/40 border-t">
+            <div className="container flex flex-col items-center justify-between gap-4 py-8 text-sm text-neutral-500 md:flex-row dark:text-neutral-400">
+              <span>
+                &copy; {new Date().getFullYear()} Yunsu. All rights reserved.
+              </span>
               <div className="flex items-center gap-4">
                 <a
-                  className="transition hover:text-primary"
+                  className="hover:text-primary transition"
                   href="https://github.com/yunsux"
                   target="_blank"
                   rel="noreferrer"
@@ -87,7 +89,7 @@ export default function RootLayout({
                   GitHub
                 </a>
                 <a
-                  className="transition hover:text-primary"
+                  className="hover:text-primary transition"
                   href="https://www.linkedin.com/in/yunsu"
                   target="_blank"
                   rel="noreferrer"
