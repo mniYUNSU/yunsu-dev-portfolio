@@ -58,7 +58,7 @@ export function HeroSection() {
           variants={headingVariants}
           className="flex flex-col gap-6 text-balance"
         >
-          <Badge className="w-fit bg-brand/10 text-small text-brand-600">
+          <Badge className="bg-brand/10 text-small text-brand-600 w-fit">
             Yunsu Kim · Product-focused Front-end
           </Badge>
           <h1 className="text-h1 text-foreground">
@@ -67,28 +67,28 @@ export function HeroSection() {
           </h1>
         </motion.div>
 
-        <motion.p
-          variants={subcopyVariants}
-          className="text-lead max-w-2xl"
-        >
+        <motion.p variants={subcopyVariants} className="text-lead max-w-2xl">
           I build resilient customer journeys with React, Next.js, and motion
-          systems—bridging design and engineering to launch experiences that feel
-          effortless across devices.
+          systems—bridging design and engineering to launch experiences that
+          feel effortless across devices.
         </motion.p>
 
         <div className="flex flex-col gap-6">
           <div className="flex flex-wrap items-center gap-4">
-            {[{
-              href: "#projects",
-              label: "View My Work",
-              className:
-                "inline-flex items-center justify-center gap-2 rounded-xl bg-brand px-5 py-2 text-sm font-semibold text-brand-foreground shadow-soft transition duration-200 hover:shadow-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-            }, {
-              href: "#contact",
-              label: "Contact Me",
-              className:
-                "inline-flex items-center justify-center gap-2 rounded-xl border border-border/60 bg-surface/80 px-5 py-2 text-sm font-semibold text-foreground transition duration-200 hover:border-border/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-            }].map((cta, index) => (
+            {[
+              {
+                href: "#projects",
+                label: "View My Work",
+                className:
+                  "inline-flex items-center justify-center gap-2 rounded-xl bg-brand px-5 py-2 text-sm font-semibold text-brand-foreground shadow-soft transition duration-200 hover:shadow-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+              },
+              {
+                href: "#contact",
+                label: "Contact Me",
+                className:
+                  "inline-flex items-center justify-center gap-2 rounded-xl border border-border/60 bg-surface/80 px-5 py-2 text-sm font-semibold text-foreground transition duration-200 hover:border-border/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+              },
+            ].map((cta, index) => (
               <motion.span
                 key={cta.label}
                 custom={index}
@@ -115,7 +115,7 @@ export function HeroSection() {
                   href={social.href}
                   aria-label={social.label}
                   title={social.label}
-                  className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-border/60 bg-surface/80 text-neutral-600 transition hover:text-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background dark:text-neutral-200"
+                  className="border-border/60 bg-surface/80 hover:text-brand focus-visible:ring-brand/60 focus-visible:ring-offset-background inline-flex h-11 w-11 items-center justify-center rounded-xl border text-neutral-600 transition focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none dark:text-neutral-200"
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -134,14 +134,15 @@ export function HeroSection() {
         className="relative mx-auto flex h-72 w-72 items-center justify-center"
         aria-hidden="true"
       >
-        <div className="absolute inset-0 rounded-[2.25rem] bg-gradient-to-br from-brand/15 via-brand/30 to-brand/10 blur-3xl" />
-        <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-[2rem] border border-border/50 bg-surface/80 shadow-elevated backdrop-blur">
-          <div className="flex h-full w-full flex-col items-center justify-center gap-4 bg-surface/70 p-10 text-center">
-            <span className="rounded-full border border-brand/40 bg-brand/10 px-4 py-1 text-small text-brand-600">
+        <div className="from-brand/15 via-brand/30 to-brand/10 absolute inset-0 rounded-[2.25rem] bg-gradient-to-br blur-3xl" />
+        <div className="border-border/50 bg-surface/80 shadow-elevated relative flex h-full w-full items-center justify-center overflow-hidden rounded-[2rem] border backdrop-blur">
+          <div className="bg-surface/70 flex h-full w-full flex-col items-center justify-center gap-4 p-10 text-center">
+            <span className="border-brand/40 bg-brand/10 text-small text-brand-600 rounded-full border px-4 py-1">
               Currently
             </span>
             <p className="text-muted max-w-[12rem]">
-              Leading design systems & motion strategy for growth-stage products.
+              Leading design systems & motion strategy for growth-stage
+              products.
             </p>
           </div>
         </div>

@@ -3,6 +3,34 @@
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --color-background: rgb(var(--background));
+  --color-surface: rgb(var(--surface));
+  --color-surface-contrast: rgb(var(--surface-contrast));
+  --color-foreground: rgb(var(--foreground));
+  --color-brand: rgb(var(--brand-500));
+  --color-brand-400: rgb(var(--brand-400));
+  --color-brand-500: rgb(var(--brand-500));
+  --color-brand-600: rgb(var(--brand-600));
+  --color-brand-foreground: rgb(var(--brand-foreground));
+  --color-muted: rgb(var(--muted));
+  --color-accent: rgb(var(--accent));
+  --color-border: rgb(var(--border));
+  --color-primary: rgb(var(--primary));
+  --color-primary-foreground: rgb(var(--primary-foreground));
+  --color-secondary: rgb(var(--secondary));
+  --color-secondary-foreground: rgb(var(--secondary-foreground));
+  --color-neutral-50: rgb(var(--neutral-50));
+  --color-neutral-100: rgb(var(--neutral-100));
+  --color-neutral-200: rgb(var(--neutral-200));
+  --color-neutral-300: rgb(var(--neutral-300));
+  --color-neutral-400: rgb(var(--neutral-400));
+  --color-neutral-500: rgb(var(--neutral-500));
+  --color-neutral-600: rgb(var(--neutral-600));
+  --color-neutral-700: rgb(var(--neutral-700));
+  --color-neutral-800: rgb(var(--neutral-800));
+  --color-neutral-900: rgb(var(--neutral-900));
+  --color-neutral-950: rgb(var(--neutral-950));
 }
 
 @layer base {
@@ -96,6 +124,9 @@
 }
 
 @layer components {
+  /* Note: Tailwind IntelliSense는 tailwind.config.ts에서 선언된 토큰/컴포넌트만 자동완성합니다.
+     이 블록의 유틸 이름은 config 플러그인(addComponents)에도 비어 있는 정의로 등록해 두었으니,
+     새 클래스를 추가할 때는 globals.css와 tailwind.config.ts 양쪽에 동일한 이름을 추가하세요. */
   /* Example: <h1 className="text-h1 text-brand-foreground">Hero Title</h1> */
   .text-h1 {
     @apply text-4xl leading-tight font-semibold tracking-tight sm:text-5xl lg:text-6xl;
@@ -117,7 +148,7 @@
     @apply text-xs font-medium tracking-[0.3em] text-neutral-500 uppercase dark:text-neutral-400;
   }
   /* Example: <p className="text-muted">Muted supporting copy.</p> */
-  .text-muted {
+  .text-mutedform {
     @apply text-sm leading-relaxed text-neutral-500 dark:text-neutral-400;
   }
 }

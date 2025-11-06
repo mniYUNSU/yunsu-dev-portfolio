@@ -62,21 +62,22 @@ export function AboutSection() {
         <motion.div variants={introVariants} className="space-y-6">
           <SectionTitle>Building delightful experiences</SectionTitle>
           <p className="text-lead">
-            I translate intent into interfaces—partnering with design, product, and
-            engineering to launch experiences that feel cohesive and considered.
-            Every build threads usability, motion systems, and performance budgets.
+            I translate intent into interfaces—partnering with design, product,
+            and engineering to launch experiences that feel cohesive and
+            considered. Every build threads usability, motion systems, and
+            performance budgets.
           </p>
-          <p className="text-muted">
-            My recent work spans design system governance, App Router rollouts, and
-            coaching teams on accessible animation. I love simplifying complex
-            product surfaces into journeys customers can trust.
+          <p className="text-muted text-mutedform">
+            My recent work spans design system governance, App Router rollouts,
+            and coaching teams on accessible animation. I love simplifying
+            complex product surfaces into journeys customers can trust.
           </p>
         </motion.div>
 
         <motion.dl
           variants={staggerVariants}
           custom={0}
-          className="grid gap-4 rounded-2xl border border-border/60 bg-surface/80 p-6 shadow-soft backdrop-blur-sm sm:grid-cols-3"
+          className="border-border/60 bg-surface/80 shadow-soft grid gap-4 rounded-2xl border p-6 backdrop-blur-sm sm:grid-cols-3"
           aria-label="Quick facts"
         >
           {facts.map((fact) => (
@@ -84,9 +85,7 @@ export function AboutSection() {
               <dt className="text-small text-neutral-500 dark:text-neutral-400">
                 {fact.label}
               </dt>
-              <dd className="text-h3 text-foreground">
-                {fact.value}
-              </dd>
+              <dd className="text-h3 text-foreground">{fact.value}</dd>
               <dd className="text-muted">{fact.detail}</dd>
             </div>
           ))}
@@ -104,7 +103,7 @@ export function AboutSection() {
               role="img"
               aria-label={tech.label}
               title={tech.label}
-              className="inline-flex min-w-[3rem] items-center justify-center rounded-xl border border-border/60 bg-surface/80 px-4 py-2 text-sm font-semibold text-neutral-600 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background dark:text-neutral-200"
+              className="border-border/60 bg-surface/80 focus-visible:ring-brand/60 focus-visible:ring-offset-background inline-flex min-w-[3rem] items-center justify-center rounded-xl border px-4 py-2 text-sm font-semibold text-neutral-600 transition focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none dark:text-neutral-200"
               tabIndex={0}
             >
               <span aria-hidden>{tech.symbol}</span>
@@ -114,24 +113,28 @@ export function AboutSection() {
         </motion.div>
       </div>
 
-      <motion.div
-        variants={staggerVariants}
-        custom={2}
-        className="space-y-6"
-      >
+      <motion.div variants={staggerVariants} custom={2} className="space-y-6">
         <Card className="flex flex-col gap-6 p-6">
           <div>
             <p className="text-small text-neutral-500 dark:text-neutral-300">
               Currently crafting
             </p>
-            <p className="mt-2 text-h3 text-foreground">
+            <p className="text-h3 text-foreground mt-2">
               Senior Front-end Engineer · Product Studio
             </p>
           </div>
-          <ul className="space-y-3 text-muted">
-            <li>- Leading an App Router adoption program with shared motion primitives.</li>
-            <li>- Scaling a token-driven design system consumed by 5+ product teams.</li>
-            <li>- Mentoring engineers on inclusive animation and DX workflows.</li>
+          <ul className="text-muted space-y-3">
+            <li>
+              - Leading an App Router adoption program with shared motion
+              primitives.
+            </li>
+            <li>
+              - Scaling a token-driven design system consumed by 5+ product
+              teams.
+            </li>
+            <li>
+              - Mentoring engineers on inclusive animation and DX workflows.
+            </li>
           </ul>
         </Card>
       </motion.div>
