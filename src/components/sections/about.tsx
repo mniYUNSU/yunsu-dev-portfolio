@@ -3,26 +3,13 @@
 import { motion, type HTMLMotionProps } from "framer-motion";
 import { SectionTitle } from "@/components/ui/section-title";
 import { Card } from "@/components/ui/card";
+import { useMediaQuery } from "@/lib/use-media-query";
 
 const sectionMotion = {
   initial: "hidden",
   whileInView: "visible",
   viewport: { once: true, margin: "-20% 0px -20% 0px" },
 } satisfies Partial<HTMLMotionProps<"section">>;
-
-const introVariants = {
-  hidden: { opacity: 0, y: 28 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.65 } },
-};
-
-const staggerVariants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: (index: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, delay: 0.15 + index * 0.08 },
-  }),
-};
 
 const facts = [
   {
@@ -47,27 +34,56 @@ const techStack = [
   { label: "Next.js", symbol: "NΞ" },
   { label: "TypeScript", symbol: "TS" },
   { label: "Swift", symbol: "" },
-  { label: "Tailwind CSS", symbol: "〰" },
+  { label: "Tailwind CSS", symbol: "~" },
   { label: "Framer Motion", symbol: "FM" },
 ] as const;
 
 export function AboutSection() {
+  const isMdUp = useMediaQuery("(min-width: 768px)");
+  const isLgUp = useMediaQuery("(min-width: 1024px)");
+
+  const introVariants = {
+    hidden: { opacity: 0, y: isMdUp ? 26 : 16 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: isMdUp ? 0.55 : 0.38,
+        ease: [0.16, 1, 0.3, 1],
+      },
+    },
+  };
+
+  const staggerVariants = {
+    hidden: { opacity: 0, y: isMdUp ? 22 : 12 },
+    visible: (index: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: isMdUp ? 0.45 : 0.3,
+        delay: (isMdUp ? 0.18 : 0.14) + index * (isLgUp ? 0.1 : 0.08),
+        ease: [0.16, 1, 0.3, 1],
+      },
+    }),
+  };
+
+  // Breakpoints: mobile stays single column; md splits content/statistics; lg gives grid breathing room.
   return (
     <motion.section
       id="about"
-      className="container grid gap-12 py-20 md:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] md:items-start md:py-28"
+      className="mainComponentWrapper grid gap-12 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:items-start md:gap-16"
       {...sectionMotion}
     >
       <div className="space-y-8">
         <motion.div variants={introVariants} className="space-y-6">
           <SectionTitle>Building delightful experiences</SectionTitle>
-          <p className="text-lead">
+          <p className="text-base leading-relaxed font-medium text-neutral-600 md:text-lg md:leading-relaxed lg:text-xl dark:text-neutral-300">
             I translate intent into interfaces—partnering with design, product,
             and engineering to launch experiences that feel cohesive and
             considered. Every build threads usability, motion systems, and
             performance budgets.
           </p>
-          <p className="text-muted text-mutedform">
+          <p className="text-base leading-relaxed text-neutral-500 md:text-lg md:leading-relaxed lg:text-xl dark:text-neutral-400">
             My recent work spans design system governance, App Router rollouts,
             and coaching teams on accessible animation. I love simplifying
             complex product surfaces into journeys customers can trust.
@@ -77,7 +93,7 @@ export function AboutSection() {
         <motion.dl
           variants={staggerVariants}
           custom={0}
-          className="border-border/60 bg-surface/80 shadow-soft grid gap-4 rounded-2xl border p-6 backdrop-blur-sm sm:grid-cols-3"
+          className="border-border/60 bg-surface/80 shadow-soft grid gap-6 rounded-2xl border p-6 backdrop-blur-sm sm:grid-cols-3"
           aria-label="Quick facts"
         >
           {facts.map((fact) => (
@@ -86,7 +102,9 @@ export function AboutSection() {
                 {fact.label}
               </dt>
               <dd className="text-h3 text-foreground">{fact.value}</dd>
-              <dd className="text-muted">{fact.detail}</dd>
+              <dd className="text-base leading-relaxed text-neutral-500 md:text-lg lg:text-xl dark:text-neutral-400">
+                {fact.detail}
+              </dd>
             </div>
           ))}
         </motion.dl>
@@ -114,7 +132,7 @@ export function AboutSection() {
       </div>
 
       <motion.div variants={staggerVariants} custom={2} className="space-y-6">
-        <Card className="flex flex-col gap-6 p-6">
+        <Card className="flex flex-col gap-6 p-6 md:p-7">
           <div>
             <p className="text-small text-neutral-500 dark:text-neutral-300">
               Currently crafting
@@ -123,7 +141,7 @@ export function AboutSection() {
               Senior Front-end Engineer · Product Studio
             </p>
           </div>
-          <ul className="text-muted space-y-3">
+          <ul className="space-y-3 text-base leading-relaxed text-neutral-500 md:text-lg lg:text-xl dark:text-neutral-300">
             <li>
               - Leading an App Router adoption program with shared motion
               primitives.

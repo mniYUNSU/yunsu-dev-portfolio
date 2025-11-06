@@ -6,12 +6,12 @@ import { SectionTitle } from "@/components/ui/section-title";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLinkIcon } from "@/components/ui/external-link-icon";
+import { useMediaQuery } from "@/lib/use-media-query";
 
 const sectionMotion = {
   initial: { opacity: 0, y: 40 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, margin: "-20% 0px -20% 0px" },
-  transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
 } satisfies Partial<HTMLMotionProps<"section">>;
 
 const projects = [
@@ -39,46 +39,61 @@ const projects = [
 ] as const;
 
 export function ProjectsSection() {
+  const isMdUp = useMediaQuery("(min-width: 768px)");
+  const isLgUp = useMediaQuery("(min-width: 1024px)");
+  const revealDuration = isMdUp ? 0.55 : 0.38;
+
+  // Breakpoints: single column on mobile, md introduces two-up layout, lg expands to three-card grid.
   return (
     <motion.section
       id="projects"
-      className="container space-y-10 py-20 md:py-28"
+      className="mainComponentWrapper"
       {...sectionMotion}
+      transition={{ duration: revealDuration, ease: [0.16, 1, 0.3, 1] }}
     >
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <SectionTitle>Selected work</SectionTitle>
-        <p className="max-w-xl text-muted">
+        <p className="max-w-xl text-base leading-relaxed text-neutral-500 md:text-lg md:leading-relaxed lg:text-xl dark:text-neutral-400">
           Close collaboration with product, design, and data teams to deliver
           measurable outcomes. Here are a few highlights from recent product
           cycles.
         </p>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
         {projects.map((project, index) => (
           <motion.div
             key={project.title}
             initial={{ opacity: 0, y: 32 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-15% 0px" }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
+            transition={{
+              duration: isMdUp ? 0.45 : 0.32,
+              delay: index * (isLgUp ? 0.08 : 0.06),
+              ease: [0.16, 1, 0.3, 1],
+            }}
           >
             <Card className="flex h-full flex-col gap-4 p-6">
               <div className="flex items-center gap-2">
                 {project.stack.map((tech) => (
-                  <Badge key={tech} className="bg-brand/10 text-xs text-brand-600">
+                  <Badge
+                    key={tech}
+                    className="bg-brand/10 text-brand-600 text-xs"
+                  >
                     {tech}
                   </Badge>
                 ))}
               </div>
               <div className="space-y-2">
                 <h3 className="text-h3">{project.title}</h3>
-                <p className="text-muted">{project.description}</p>
+                <p className="text-base leading-relaxed text-neutral-500 md:text-lg lg:text-xl dark:text-neutral-400">
+                  {project.description}
+                </p>
               </div>
               <div className="mt-auto">
                 <Link
                   href={project.href}
-                  className="inline-flex items-center gap-2 text-sm font-semibold text-brand transition hover:text-brand/80"
+                  className="text-brand hover:text-brand/80 inline-flex items-center gap-2 text-sm font-semibold transition"
                 >
                   View project
                   <ExternalLinkIcon className="size-4" />

@@ -62,18 +62,18 @@ export function ContactSection() {
   return (
     <motion.section
       id="contact"
-      className="container grid gap-10 py-20 md:py-28 lg:grid-cols-[1fr_1fr]"
+      className="mainComponentWrapper grid gap-10 lg:grid-cols-[1fr_1fr]"
       {...sectionMotion}
     >
       <div className="space-y-6">
         <SectionTitle>Let&apos;s build together</SectionTitle>
         <p className="text-lead max-w-xl">
           Whether you&apos;re shipping a new product or levelling up an existing
-          experience, I can help you bring clarity to your front-end roadmap. Drop
-          a message and I&apos;ll be in touch shortly.
+          experience, I can help you bring clarity to your front-end roadmap.
+          Drop a message and I&apos;ll be in touch shortly.
         </p>
         {status === "submitted" ? (
-          <Card className="border border-brand/40 bg-brand/10 p-6 text-sm text-brand">
+          <Card className="border-brand/40 bg-brand/10 text-brand border p-6 text-sm">
             Thanks! Your message is on its way. I&apos;ll respond within 1-2
             business days.
           </Card>
@@ -83,43 +83,53 @@ export function ContactSection() {
       <Card className="p-8">
         <form className="space-y-6" onSubmit={onSubmit} noValidate>
           <div className="space-y-2">
-            <label className="text-sm font-semibold text-foreground" htmlFor="name">
+            <label
+              className="text-foreground text-sm font-semibold"
+              htmlFor="name"
+            >
               Name
             </label>
             <input
               id="name"
               type="text"
               {...register("name")}
-              className="w-full rounded-xl border border-border/60 bg-background/70 px-4 py-2 text-sm text-foreground outline-none transition focus:border-brand focus:ring-1 focus:ring-brand/70"
+              className="border-border/60 bg-background/70 text-foreground focus:border-brand focus:ring-brand/70 w-full rounded-xl border px-4 py-2 text-sm transition outline-none focus:ring-1"
               placeholder="Jane Doe"
               disabled={isSubmitting}
             />
             {errors.name ? (
-              <p className="text-xs font-medium text-brand">{errors.name.message}</p>
+              <p className="text-brand text-xs font-medium">
+                {errors.name.message}
+              </p>
             ) : null}
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-semibold text-foreground" htmlFor="email">
+            <label
+              className="text-foreground text-sm font-semibold"
+              htmlFor="email"
+            >
               Email
             </label>
             <input
               id="email"
               type="email"
               {...register("email")}
-              className="w-full rounded-xl border border-border/60 bg-background/70 px-4 py-2 text-sm text-foreground outline-none transition focus:border-brand focus:ring-1 focus:ring-brand/70"
+              className="border-border/60 bg-background/70 text-foreground focus:border-brand focus:ring-brand/70 w-full rounded-xl border px-4 py-2 text-sm transition outline-none focus:ring-1"
               placeholder="you@example.com"
               autoComplete="email"
               disabled={isSubmitting}
             />
             {errors.email ? (
-              <p className="text-xs font-medium text-brand">{errors.email.message}</p>
+              <p className="text-brand text-xs font-medium">
+                {errors.email.message}
+              </p>
             ) : null}
           </div>
 
           <div className="space-y-2">
             <label
-              className="text-sm font-semibold text-foreground"
+              className="text-foreground text-sm font-semibold"
               htmlFor="message"
             >
               Project details
@@ -128,20 +138,18 @@ export function ContactSection() {
               id="message"
               rows={4}
               {...register("message")}
-              className="w-full rounded-xl border border-border/60 bg-background/70 px-4 py-2 text-sm text-foreground outline-none transition focus:border-brand focus:ring-1 focus:ring-brand/70"
+              className="border-border/60 bg-background/70 text-foreground focus:border-brand focus:ring-brand/70 w-full rounded-xl border px-4 py-2 text-sm transition outline-none focus:ring-1"
               placeholder="Share goals, timelines, and what success looks like."
               disabled={isSubmitting}
             />
             {errors.message ? (
-              <p className="text-xs font-medium text-brand">{errors.message.message}</p>
+              <p className="text-brand text-xs font-medium">
+                {errors.message.message}
+              </p>
             ) : null}
           </div>
 
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={isSubmitting}
-          >
+          <Button type="submit" className="w-full" disabled={isSubmitting}>
             {isSubmitting ? "Sending..." : "Send message"}
           </Button>
         </form>

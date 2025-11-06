@@ -18,7 +18,10 @@ export function SectionTitle({
 }: SectionTitleProps) {
   return (
     <h2
-      className={cn("text-balance text-h2 text-foreground", className)}
+      className={cn(
+        "text-foreground text-3xl font-semibold tracking-tight text-balance sm:text-4xl",
+        className,
+      )}
       {...props}
     >
       {children}

@@ -31,31 +31,26 @@ export function SkillsSection() {
   return (
     <motion.section
       id="skills"
-      className="container space-y-8 py-20 md:py-28"
+      className="mainComponentWrapper"
       {...sectionMotion}
     >
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <SectionTitle>Toolkit</SectionTitle>
-        <p className="max-w-xl text-muted">
-          A blend of product intuition and technical foundations that lets me ship
-          quickly while keeping quality high.
+        <p className="text-muted max-w-xl">
+          A blend of product intuition and technical foundations that lets me
+          ship quickly while keeping quality high.
         </p>
       </div>
 
       <div className="grid gap-6 md:grid-cols-3">
         {skillGroups.map((group) => (
-          <Card
-            key={group.label}
-            className="flex flex-col gap-4 p-6"
-          >
-            <h3 className="text-small text-neutral-500">
-              {group.label}
-            </h3>
+          <Card key={group.label} className="flex flex-col gap-4 p-6">
+            <h3 className="text-small text-neutral-500">{group.label}</h3>
             <div className="flex flex-wrap gap-2">
               {group.skills.map((skill) => (
                 <Badge
                   key={skill}
-                  className="bg-brand/10 px-3 py-1 text-xs font-semibold text-brand-600"
+                  className="bg-brand/10 text-brand-600 px-3 py-1 text-xs font-semibold"
                 >
                   {skill}
                 </Badge>

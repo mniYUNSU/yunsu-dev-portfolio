@@ -123,6 +123,10 @@
   }
 }
 
+.mainComponentWrapper {
+  @apply mx-auto w-full max-w-[1200px] space-y-8 px-4 py-20 sm:px-6 md:py-28;
+}
+
 @layer components {
   /* Note: Tailwind IntelliSense는 tailwind.config.ts에서 선언된 토큰/컴포넌트만 자동완성합니다.
      이 블록의 유틸 이름은 config 플러그인(addComponents)에도 비어 있는 정의로 등록해 두었으니,
