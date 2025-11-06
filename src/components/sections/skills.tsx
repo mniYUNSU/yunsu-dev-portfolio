@@ -31,12 +31,12 @@ export function SkillsSection() {
   return (
     <motion.section
       id="skills"
-      className="container space-y-8 py-24"
+      className="container space-y-8 py-20 md:py-28"
       {...sectionMotion}
     >
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <SectionTitle>Toolkit</SectionTitle>
-        <p className="max-w-xl text-sm text-foreground/70">
+        <p className="max-w-xl text-muted">
           A blend of product intuition and technical foundations that lets me ship
           quickly while keeping quality high.
         </p>
@@ -46,16 +46,16 @@ export function SkillsSection() {
         {skillGroups.map((group) => (
           <Card
             key={group.label}
-            className="flex flex-col gap-4 border-border/50 bg-background/65"
+            className="flex flex-col gap-4 p-6"
           >
-            <h3 className="text-sm font-semibold uppercase tracking-[0.3em] text-secondary-foreground/70">
+            <h3 className="text-small text-neutral-500">
               {group.label}
             </h3>
             <div className="flex flex-wrap gap-2">
               {group.skills.map((skill) => (
                 <Badge
                   key={skill}
-                  className="bg-primary/10 px-3 py-1 text-xs font-medium text-primary"
+                  className="bg-brand/10 px-3 py-1 text-xs font-semibold text-brand-600"
                 >
                   {skill}
                 </Badge>

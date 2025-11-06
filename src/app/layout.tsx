@@ -75,7 +75,7 @@ export default function RootLayout({
           <Navbar />
           <main className="flex-1">{children}</main>
           <footer className="border-t border-border/40">
-            <div className="container flex flex-col items-center justify-between gap-4 py-8 text-sm text-foreground/70 md:flex-row">
+            <div className="container flex flex-col items-center justify-between gap-4 py-8 text-sm text-neutral-500 dark:text-neutral-400 md:flex-row">
               <span>&copy; {new Date().getFullYear()} Yunsu. All rights reserved.</span>
               <div className="flex items-center gap-4">
                 <a

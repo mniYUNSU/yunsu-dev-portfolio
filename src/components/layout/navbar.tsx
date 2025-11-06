@@ -73,10 +73,10 @@ export function Navbar() {
       <div className="container flex h-16 items-center justify-between gap-4">
         <Link
           href="#home"
-          className="group inline-flex items-center gap-2 text-sm font-semibold tracking-tight text-foreground transition hover:text-primary"
+          className="group inline-flex items-center gap-2 text-sm font-semibold tracking-tight text-foreground transition hover:text-brand"
         >
           <span>Yunsu.dev</span>
-          <span className="rounded-full border border-border/60 px-2 py-0.5 text-[11px] font-medium uppercase tracking-widest text-secondary-foreground/70 transition group-hover:border-primary/60 group-hover:text-primary/80">
+          <span className="rounded-full border border-border/60 px-2 py-0.5 text-[11px] font-medium uppercase tracking-widest text-neutral-500 transition group-hover:border-brand/60 group-hover:text-brand/80 dark:text-neutral-300">
             Portfolio
           </span>
         </Link>
@@ -93,15 +93,17 @@ export function Navbar() {
                   <Link
                     href={`#${item.id}`}
                     className={cn(
-                      "relative block rounded-full px-3 py-1.5 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-                      isActive ? "text-primary" : "text-foreground/70",
+                      "relative block rounded-full px-3 py-1.5 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                      isActive
+                        ? "text-brand"
+                        : "text-neutral-500 transition-colors dark:text-neutral-300",
                     )}
                     onClick={() => setActiveSection(item.id)}
                   >
                     {isActive && (
                       <motion.span
                         layoutId="active-nav-pill"
-                        className="absolute inset-0 -z-10 rounded-full bg-primary/15"
+                        className="absolute inset-0 -z-10 rounded-full bg-brand/15"
                         transition={{ type: "spring", stiffness: 250, damping: 30 }}
                       />
                     )}
@@ -116,7 +118,7 @@ export function Navbar() {
         <div className="hidden shrink-0 md:flex">
           <Link
             href="#contact"
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition duration-200 hover:shadow-[0_10px_35px_-15px_rgba(125,211,252,0.8)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand px-4 py-2 text-sm font-semibold text-brand-foreground shadow-soft transition duration-200 hover:shadow-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
             Let&apos;s Talk
           </Link>

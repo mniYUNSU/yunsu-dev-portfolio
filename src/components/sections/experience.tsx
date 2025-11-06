@@ -38,12 +38,12 @@ export function ExperienceSection() {
   return (
     <motion.section
       id="experience"
-      className="container space-y-10 py-24"
+      className="container space-y-10 py-20 md:py-28"
       {...sectionMotion}
     >
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <SectionTitle>Experience</SectionTitle>
-        <p className="max-w-xl text-sm text-foreground/70">
+        <p className="max-w-xl text-muted">
           Leadership across startups and growth-stage companies, mentoring teams
           while staying close to the craft.
         </p>
@@ -59,18 +59,18 @@ export function ExperienceSection() {
             transition={{ duration: 0.5, delay: index * 0.1 }}
             className={index % 2 === 0 ? "md:pr-[55%]" : "md:pl-[55%]"}
           >
-            <Card className="relative flex flex-col gap-4 border-border/50 bg-background/70 p-6">
-              <span className="absolute left-4 top-6 size-3 rounded-full bg-primary shadow-[0_0_0_4px_rgba(125,211,252,0.2)] md:-left-[calc(0.5px+0.375rem)] md:top-8" />
+            <Card className="relative flex flex-col gap-4 p-6">
+              <span className="absolute left-4 top-6 size-3 rounded-full bg-brand shadow-[0_0_0_4px_rgba(59,130,246,0.25)] md:-left-[calc(0.5px+0.375rem)] md:top-8" />
               <div className="ml-8 space-y-1 md:ml-10">
-                <p className="text-xs uppercase tracking-[0.3em] text-secondary-foreground/60">
+                <p className="text-small text-neutral-500">
                   {job.period}
                 </p>
-                <h3 className="text-lg font-semibold text-foreground">
+                <h3 className="text-h3 text-foreground">
                   {job.role}
                 </h3>
-                <p className="text-sm text-foreground/70">{job.company}</p>
+                <p className="text-muted">{job.company}</p>
               </div>
-              <ul className="ml-8 list-disc space-y-2 text-sm text-foreground/80 md:ml-10">
+              <ul className="ml-8 list-disc space-y-2 text-muted md:ml-10">
                 {job.highlights.map((highlight) => (
                   <li key={highlight}>{highlight}</li>
                 ))}

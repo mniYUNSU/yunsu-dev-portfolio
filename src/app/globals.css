@@ -7,15 +7,34 @@
 
 @layer base {
   :root {
-    --background: 250 250 255;
+    color-scheme: light;
+    --background: 248 250 252;
+    --surface: 255 255 255;
+    --surface-contrast: 15 23 42;
     --foreground: 15 23 42;
+    --brand-400: 56 189 248;
+    --brand-500: 14 165 233;
+    --brand-600: 2 132 199;
+    --brand-foreground: 255 255 255;
     --muted: 226 232 240;
     --accent: 56 189 248;
     --border: 203 213 225;
-    --primary: 94 234 212;
-    --primary-foreground: 15 23 42;
+    --primary: 14 165 233;
+    --primary-foreground: 255 255 255;
     --secondary: 148 163 184;
     --secondary-foreground: 15 23 42;
+    --neutral-50: 248 250 252;
+    --neutral-100: 241 245 249;
+    --neutral-200: 226 232 240;
+    --neutral-300: 203 213 225;
+    --neutral-400: 148 163 184;
+    --neutral-500: 100 116 139;
+    --neutral-600: 71 85 105;
+    --neutral-700: 51 65 85;
+    --neutral-800: 30 41 59;
+    --neutral-900: 15 23 42;
+    --neutral-950: 2 6 23;
+    --radius-2xl: 2rem;
     --radius-xl: 1.5rem;
     --radius-lg: 1rem;
     --radius-md: 0.75rem;
@@ -23,15 +42,33 @@
   }
 
   .dark {
-    --background: 10 10 12;
+    color-scheme: dark;
+    --background: 6 9 18;
+    --surface: 12 20 33;
+    --surface-contrast: 226 232 240;
     --foreground: 226 232 240;
+    --brand-400: 96 165 250;
+    --brand-500: 59 130 246;
+    --brand-600: 37 99 235;
+    --brand-foreground: 255 255 255;
     --muted: 51 65 85;
-    --accent: 6 182 212;
-    --border: 75 85 99;
-    --primary: 125 211 252;
-    --primary-foreground: 15 23 42;
-    --secondary: 100 116 139;
+    --accent: 129 140 248;
+    --border: 66 82 110;
+    --primary: 59 130 246;
+    --primary-foreground: 255 255 255;
+    --secondary: 148 163 184;
     --secondary-foreground: 226 232 240;
+    --neutral-50: 15 23 42;
+    --neutral-100: 30 41 59;
+    --neutral-200: 51 65 85;
+    --neutral-300: 71 85 105;
+    --neutral-400: 100 116 139;
+    --neutral-500: 148 163 184;
+    --neutral-600: 203 213 225;
+    --neutral-700: 226 232 240;
+    --neutral-800: 241 245 249;
+    --neutral-900: 248 250 252;
+    --neutral-950: 252 253 255;
   }
 
   *, ::before, ::after {
@@ -53,5 +90,32 @@
   ::selection {
     background-color: rgb(var(--accent) / 0.6);
     color: rgb(var(--foreground));
+  }
+}
+
+@layer components {
+  /* Example: <h1 className="text-h1 text-brand-foreground">Hero Title</h1> */
+  .text-h1 {
+    @apply text-4xl font-semibold leading-tight tracking-tight sm:text-5xl lg:text-6xl;
+  }
+  /* Example: <h2 className="text-h2">Section heading</h2> */
+  .text-h2 {
+    @apply text-3xl font-semibold tracking-tight sm:text-4xl;
+  }
+  /* Example: <h3 className="text-h3">Card title</h3> */
+  .text-h3 {
+    @apply text-2xl font-semibold tracking-tight sm:text-3xl;
+  }
+  /* Example: <p className="text-lead">Lead paragraph copy.</p> */
+  .text-lead {
+    @apply text-lg font-medium leading-relaxed text-neutral-600 dark:text-neutral-300 sm:text-xl;
+  }
+  /* Example: <p className="text-small">Caption or helper text.</p> */
+  .text-small {
+    @apply text-xs font-medium uppercase tracking-[0.3em] text-neutral-500 dark:text-neutral-400;
+  }
+  /* Example: <p className="text-muted">Muted supporting copy.</p> */
+  .text-muted {
+    @apply text-sm leading-relaxed text-neutral-500 dark:text-neutral-400;
   }
 }

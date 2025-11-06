@@ -42,12 +42,12 @@ export function ProjectsSection() {
   return (
     <motion.section
       id="projects"
-      className="container space-y-10 py-24"
+      className="container space-y-10 py-20 md:py-28"
       {...sectionMotion}
     >
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <SectionTitle>Selected work</SectionTitle>
-        <p className="max-w-xl text-sm text-foreground/70">
+        <p className="max-w-xl text-muted">
           Close collaboration with product, design, and data teams to deliver
           measurable outcomes. Here are a few highlights from recent product
           cycles.
@@ -63,22 +63,22 @@ export function ProjectsSection() {
             viewport={{ once: true, margin: "-15% 0px" }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
           >
-            <Card className="flex h-full flex-col gap-4 border-border/50 bg-background/65">
+            <Card className="flex h-full flex-col gap-4 p-6">
               <div className="flex items-center gap-2">
                 {project.stack.map((tech) => (
-                  <Badge key={tech} className="bg-primary/10 text-xs text-primary">
+                  <Badge key={tech} className="bg-brand/10 text-xs text-brand-600">
                     {tech}
                   </Badge>
                 ))}
               </div>
               <div className="space-y-2">
-                <h3 className="text-lg font-semibold">{project.title}</h3>
-                <p className="text-sm text-foreground/75">{project.description}</p>
+                <h3 className="text-h3">{project.title}</h3>
+                <p className="text-muted">{project.description}</p>
               </div>
               <div className="mt-auto">
                 <Link
                   href={project.href}
-                  className="inline-flex items-center gap-2 text-sm font-medium text-primary transition hover:text-primary/80"
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-brand transition hover:text-brand/80"
                 >
                   View project
                   <ExternalLinkIcon className="size-4" />
