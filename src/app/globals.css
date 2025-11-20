@@ -1,25 +1,19 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: "Inter", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "SFMono-Regular", "Menlo", "Consolas", monospace;
 
   --color-background: rgb(var(--background));
-  --color-surface: rgb(var(--surface));
-  --color-surface-contrast: rgb(var(--surface-contrast));
   --color-foreground: rgb(var(--foreground));
-  --color-brand: rgb(var(--brand-500));
-  --color-brand-400: rgb(var(--brand-400));
-  --color-brand-500: rgb(var(--brand-500));
-  --color-brand-600: rgb(var(--brand-600));
-  --color-brand-foreground: rgb(var(--brand-foreground));
-  --color-muted: rgb(var(--muted));
-  --color-accent: rgb(var(--accent));
+  --color-surface: rgb(var(--surface));
+  --color-card: rgb(var(--card));
+  --color-card-foreground: rgb(var(--card-foreground));
   --color-border: rgb(var(--border));
-  --color-primary: rgb(var(--primary));
-  --color-primary-foreground: rgb(var(--primary-foreground));
-  --color-secondary: rgb(var(--secondary));
-  --color-secondary-foreground: rgb(var(--secondary-foreground));
+  --color-muted: rgb(var(--muted));
+  --color-muted-foreground: rgb(var(--muted-foreground));
+  --color-brand: rgb(var(--brand-500));
+  --color-brand-foreground: rgb(var(--brand-foreground));
   --color-neutral-50: rgb(var(--neutral-50));
   --color-neutral-100: rgb(var(--neutral-100));
   --color-neutral-200: rgb(var(--neutral-200));
@@ -36,21 +30,18 @@
 @layer base {
   :root {
     color-scheme: light;
-    --background: 248 250 252;
-    --surface: 255 255 255;
-    --surface-contrast: 15 23 42;
-    --foreground: 15 23 42;
-    --brand-400: 56 189 248;
-    --brand-500: 14 165 233;
-    --brand-600: 2 132 199;
-    --brand-foreground: 255 255 255;
-    --muted: 226 232 240;
-    --accent: 56 189 248;
-    --border: 203 213 225;
-    --primary: 14 165 233;
-    --primary-foreground: 255 255 255;
-    --secondary: 148 163 184;
-    --secondary-foreground: 15 23 42;
+    --background: 242 242 242;
+    --surface: 248 248 248;
+    --card: 246 246 246;
+    --card-foreground: 18 18 18;
+    --foreground: 20 20 20;
+    --brand-400: 84 84 84;
+    --brand-500: 62 62 62;
+    --brand-600: 40 40 40;
+    --brand-foreground: 240 240 240;
+    --muted: 152 152 152;
+    --muted-foreground: 92 92 92;
+    --border: 210 210 210;
     --neutral-50: 248 250 252;
     --neutral-100: 241 245 249;
     --neutral-200: 226 232 240;
@@ -62,41 +53,42 @@
     --neutral-800: 30 41 59;
     --neutral-900: 15 23 42;
     --neutral-950: 2 6 23;
-    --radius-2xl: 2rem;
-    --radius-xl: 1.5rem;
-    --radius-lg: 1rem;
-    --radius-md: 0.75rem;
-    --radius-sm: 0.5rem;
+    --radius-2xl: 1.75rem;
+    --radius-xl: 1.2rem;
+    --radius-lg: 0.9rem;
+    --radius-md: 0.65rem;
+    --radius-sm: 0.45rem;
+    --shadow-soft: 0 16px 40px -28px rgba(10, 10, 10, 0.35);
+    --shadow-window: 0 24px 55px -35px rgba(10, 10, 10, 0.45);
   }
 
   .dark {
     color-scheme: dark;
-    --background: 6 9 18;
-    --surface: 12 20 33;
-    --surface-contrast: 226 232 240;
-    --foreground: 226 232 240;
-    --brand-400: 96 165 250;
-    --brand-500: 59 130 246;
-    --brand-600: 37 99 235;
-    --brand-foreground: 255 255 255;
-    --muted: 51 65 85;
-    --accent: 129 140 248;
-    --border: 66 82 110;
-    --primary: 59 130 246;
-    --primary-foreground: 255 255 255;
-    --secondary: 148 163 184;
-    --secondary-foreground: 226 232 240;
-    --neutral-50: 15 23 42;
-    --neutral-100: 30 41 59;
-    --neutral-200: 51 65 85;
-    --neutral-300: 71 85 105;
-    --neutral-400: 100 116 139;
-    --neutral-500: 148 163 184;
-    --neutral-600: 203 213 225;
-    --neutral-700: 226 232 240;
-    --neutral-800: 241 245 249;
-    --neutral-900: 248 250 252;
-    --neutral-950: 252 253 255;
+    --background: 18 18 18;
+    --surface: 26 26 26;
+    --card: 24 24 24;
+    --card-foreground: 234 234 234;
+    --foreground: 235 235 235;
+    --brand-400: 210 210 210;
+    --brand-500: 198 198 198;
+    --brand-600: 178 178 178;
+    --brand-foreground: 18 18 18;
+    --muted: 134 134 134;
+    --muted-foreground: 176 176 176;
+    --border: 64 64 64;
+    --neutral-50: 20 20 20;
+    --neutral-100: 32 32 32;
+    --neutral-200: 44 44 44;
+    --neutral-300: 68 68 68;
+    --neutral-400: 94 94 94;
+    --neutral-500: 122 122 122;
+    --neutral-600: 154 154 154;
+    --neutral-700: 188 188 188;
+    --neutral-800: 210 210 210;
+    --neutral-900: 232 232 232;
+    --neutral-950: 244 244 244;
+    --shadow-soft: 0 18px 40px -30px rgba(0, 0, 0, 0.65);
+    --shadow-window: 0 26px 60px -35px rgba(0, 0, 0, 0.75);
   }
 
   *,
@@ -118,7 +110,7 @@
   }
 
   ::selection {
-    background-color: rgb(var(--accent) / 0.6);
+    background-color: rgb(var(--foreground) / 0.12);
     color: rgb(var(--foreground));
   }
 }

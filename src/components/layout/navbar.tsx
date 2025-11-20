@@ -15,7 +15,6 @@ const NAV_ITEMS = [
   { id: "experience", labelKey: "experience" },
   { id: "contact", labelKey: "contact" },
 ] as const;
-
 const NAV_IDS = NAV_ITEMS.map((item) => item.id);
 
 const LANGUAGES = [
@@ -25,25 +24,18 @@ const LANGUAGES = [
 ] as const;
 
 export function Navbar() {
-  // Breakpoints: mobile shows sheet menu, md reveals inline nav, lg keeps CTA persistent.
-  const [hasScrolled, setHasScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { locale, setLocale, translations } = useLocale();
-  const [activeSection, setActiveSection] = useState<
-    (typeof NAV_ITEMS)[number]["id"]
-  >(() => {
-    if (typeof window === "undefined") {
-      return "home";
-    }
+
+  const [activeSection, setActiveSection] = useState<(typeof NAV_ITEMS)[number]["id"]>(() => {
+    if (typeof window === "undefined") return "home";
     const hash = window.location.hash.replace("#", "");
-    return NAV_IDS.includes(hash as (typeof NAV_IDS)[number])
-      ? (hash as (typeof NAV_ITEMS)[number]["id"])
-      : "home";
+    return NAV_IDS.includes(hash as (typeof NAV_ITEMS)[number]["id"]) ? (hash as (typeof NAV_ITEMS)[number]["id"]) : "home";
   });
 
   const handleHashChange = useCallback(() => {
     const hash = window.location.hash.replace("#", "");
-    if (NAV_IDS.includes(hash as (typeof NAV_IDS)[number])) {
+    if (NAV_ITEMS.some((item) => item.id === hash)) {
       setActiveSection(hash as (typeof NAV_ITEMS)[number]["id"]);
     }
   }, []);
@@ -54,46 +46,27 @@ export function Navbar() {
   }, [handleHashChange]);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setHasScrolled(window.scrollY > 8);
-    };
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        // Prioritize the section with the highest visible area to keep the nav highlight intuitive.
         const visible = entries
           .filter((entry) => entry.isIntersecting)
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-
         if (visible[0]) {
-          setActiveSection(visible[0].target.id as typeof activeSection);
+          setActiveSection(visible[0].target.id as (typeof NAV_ITEMS)[number]["id"]);
         }
       },
-      {
-        rootMargin: "-45% 0px -45% 0px",
-        threshold: [0.1, 0.25, 0.5, 0.75],
-      },
+      { rootMargin: "-40% 0px -40% 0px", threshold: [0.2, 0.4, 0.6] },
     );
-
     NAV_IDS.forEach((id) => {
-      const section = document.getElementById(id);
-      if (section) {
-        observer.observe(section);
-      }
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
     });
-
     return () => observer.disconnect();
   }, []);
 
+
   useEffect(() => {
-    if (!isMenuOpen) {
-      return;
-    }
+    if (!isMenuOpen) return;
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setIsMenuOpen(false);
@@ -108,40 +81,29 @@ export function Navbar() {
   }, [isMenuOpen]);
 
   return (
-    <header
-      className={cn(
-        "border-border/40 sticky top-0 z-40 border-b transition-all duration-300",
-        hasScrolled
-          ? "bg-background/85 shadow-[0_12px_30px_-24px_rgba(15,15,35,0.65)] backdrop-blur"
-          : "bg-background/70",
-      )}
-    >
+    <header className="sticky top-0 z-40 border-b border-border/60 bg-background/90 backdrop-blur">
       <div className="mx-auto flex w-full max-w-[1200px] items-center justify-between gap-4 px-4 py-3 sm:px-6 md:py-4">
         <Link
           href="#home"
-          className="group text-foreground hover:text-brand inline-flex items-center gap-2 text-sm font-semibold tracking-tight transition"
+          className="group inline-flex items-center gap-2 text-sm font-semibold tracking-tight text-foreground transition hover:text-brand"
         >
           <span>Yunsu.dev</span>
-          <span className="border-border/60 group-hover:border-brand/60 group-hover:text-brand/80 rounded-full border px-2 py-0.5 text-[11px] font-medium tracking-widest text-neutral-500 uppercase transition dark:text-neutral-300">
+          <span className="rounded-full border border-border/70 px-2 py-0.5 text-[11px] font-medium uppercase tracking-widest text-muted-foreground transition group-hover:border-brand group-hover:text-brand">
             Portfolio
           </span>
         </Link>
 
         <button
           type="button"
-          className="text-foreground focus-visible:ring-brand/60 focus-visible:ring-offset-background border-border/50 bg-surface/80 hover:text-brand inline-flex size-11 items-center justify-center rounded-xl border transition focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none md:hidden"
+          className="inline-flex size-11 items-center justify-center rounded-xl border border-border/70 bg-card text-foreground transition hover:text-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background md:hidden"
           aria-label={isMenuOpen ? "Close navigation" : "Open navigation"}
           onClick={() => setIsMenuOpen((prev) => !prev)}
         >
-          {isMenuOpen ? (
-            <X className="size-5" aria-hidden="true" />
-          ) : (
-            <Menu className="size-5" aria-hidden="true" />
-          )}
+          {isMenuOpen ? <X className="size-5" aria-hidden="true" /> : <Menu className="size-5" aria-hidden="true" />}
         </button>
 
         <div className="ml-auto hidden items-center gap-4 md:flex">
-          <div className="border-border/60 bg-surface/80 flex rounded-full border px-1 py-0.5">
+          <div className="flex rounded-full border border-border/70 bg-surface px-1 py-0.5">
             {LANGUAGES.map((language) => {
               const isActive = locale === language.code;
               return (
@@ -149,10 +111,8 @@ export function Navbar() {
                   key={language.code}
                   type="button"
                   className={cn(
-                    "focus-visible:ring-brand/60 focus-visible:ring-offset-background rounded-full px-3 py-1 text-xs font-semibold tracking-wide uppercase transition focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
-                    isActive
-                      ? "bg-brand text-brand-foreground"
-                      : "hover:text-brand text-neutral-500 dark:text-neutral-300",
+                    "rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                    isActive ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground",
                   )}
                   onClick={() => setLocale(language.code)}
                 >
@@ -161,10 +121,7 @@ export function Navbar() {
               );
             })}
           </div>
-          <nav
-            className="border-border/60 bg-background/70 relative hidden overflow-x-auto rounded-full border px-1 py-1 shadow-[0_10px_30px_-25px_rgba(15,15,35,0.65)] md:block"
-            aria-label="Primary"
-          >
+          <nav className="relative hidden overflow-x-auto rounded-full border border-border/70 bg-card px-1 py-1 shadow-soft md:block">
             <ul className="flex items-center gap-1">
               {NAV_ITEMS.map((item) => {
                 const isActive = activeSection === item.id;
@@ -173,22 +130,16 @@ export function Navbar() {
                     <Link
                       href={`#${item.id}`}
                       className={cn(
-                        "focus-visible:ring-brand/60 focus-visible:ring-offset-background relative block rounded-full px-3 py-1.5 text-sm font-medium transition focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
-                        isActive
-                          ? "text-brand"
-                          : "text-neutral-500 transition-colors dark:text-neutral-300",
+                        "relative block rounded-full px-3 py-1.5 text-sm font-medium text-muted-foreground transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                        isActive ? "text-foreground" : undefined,
                       )}
                       onClick={() => setActiveSection(item.id)}
                     >
                       {isActive && (
                         <motion.span
                           layoutId="active-nav-pill"
-                          className="bg-brand/15 absolute inset-0 -z-10 rounded-full"
-                          transition={{
-                            type: "spring",
-                            stiffness: 250,
-                            damping: 30,
-                          }}
+                          className="absolute inset-0 -z-10 rounded-full bg-foreground/10"
+                          transition={{ type: "spring", stiffness: 220, damping: 28 }}
                         />
                       )}
                       {translations.navbar.links[item.labelKey]}
@@ -203,7 +154,7 @@ export function Navbar() {
         <div className="hidden shrink-0 sm:flex">
           <Link
             href="#contact"
-            className="bg-brand text-brand-foreground shadow-soft hover:shadow-elevated focus-visible:ring-brand/70 focus-visible:ring-offset-background inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold transition duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+            className="inline-flex items-center justify-center gap-2 rounded-2xl border border-border/70 bg-card px-4 py-2 text-sm font-semibold text-foreground shadow-soft transition duration-200 hover:bg-card/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
             {translations.navbar.cta}
           </Link>
@@ -212,31 +163,23 @@ export function Navbar() {
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            className="bg-background/60 fixed inset-0 z-30 backdrop-blur-sm md:hidden"
+            className="fixed inset-0 z-40 bg-background/90 backdrop-blur"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setIsMenuOpen(false)}
           >
             <motion.nav
-              className="border-border/60 bg-surface/95 absolute top-20 right-4 flex w-[88%] max-w-xs flex-col gap-2 rounded-2xl border p-6 shadow-[0_32px_80px_-40px_rgba(15,15,35,0.7)]"
+              className="absolute top-20 right-4 flex w-[88%] max-w-xs flex-col gap-3 rounded-2xl border border-border/70 bg-card p-6 shadow-soft"
               aria-label="Mobile navigation"
-              initial={{ opacity: 0, x: 24 }}
-              animate={{
-                opacity: 1,
-                x: 0,
-                transition: { duration: 0.22, ease: [0.33, 1, 0.68, 1] },
-              }}
-              exit={{ opacity: 0, x: 24, transition: { duration: 0.18 } }}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0, transition: { duration: 0.25, ease: [0.25, 0.1, 0.25, 1] } }}
+              exit={{ opacity: 0, y: 12, transition: { duration: 0.18 } }}
               onClick={(event) => event.stopPropagation()}
             >
               <div className="flex items-center justify-between">
-                <span className="text-sm font-semibold text-neutral-500 dark:text-neutral-300">
-                  Navigate
-                </span>
-                <span className="border-border/60 rounded-full border px-3 py-1 text-xs text-neutral-500 dark:text-neutral-300">
-                  Swipe down
-                </span>
+                <span className="text-sm font-semibold text-muted-foreground">Navigate</span>
+                <span className="rounded-full border border-border/70 px-3 py-1 text-xs text-muted-foreground">Swipe down</span>
               </div>
               <div className="flex flex-wrap gap-2">
                 {LANGUAGES.map((language) => {
@@ -247,9 +190,7 @@ export function Navbar() {
                       type="button"
                       className={cn(
                         "flex-1 rounded-xl border px-4 py-2 text-sm font-semibold transition",
-                        isActive
-                          ? "border-brand bg-brand/10 text-brand"
-                          : "border-border/60 text-neutral-600 dark:text-neutral-200",
+                        isActive ? "border-foreground text-foreground" : "border-border/70 text-muted-foreground",
                       )}
                       onClick={() => setLocale(language.code)}
                     >
@@ -266,10 +207,8 @@ export function Navbar() {
                       <Link
                         href={`#${item.id}`}
                         className={cn(
-                          "focus-visible:ring-brand/60 focus-visible:ring-offset-background relative block rounded-xl px-4 py-3 text-base font-medium transition focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none md:text-sm",
-                          isActive
-                            ? "bg-brand/10 text-brand"
-                            : "text-neutral-600 dark:text-neutral-200",
+                          "relative block rounded-xl px-4 py-3 text-base font-medium text-muted-foreground transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background md:text-sm",
+                          isActive ? "text-foreground" : undefined,
                         )}
                         onClick={() => {
                           setActiveSection(item.id);
@@ -284,7 +223,7 @@ export function Navbar() {
               </ul>
               <Link
                 href="#contact"
-                className="bg-brand text-brand-foreground shadow-soft hover:shadow-elevated focus-visible:ring-brand/70 focus-visible:ring-offset-background inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold transition duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-border/70 bg-card px-4 py-2 text-sm font-semibold text-foreground shadow-soft transition duration-200 hover:bg-card/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {translations.navbar.cta}

@@ -3,13 +3,16 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
+const baseButton =
+  "inline-flex items-center justify-center gap-2 rounded-2xl border px-5 py-2.5 text-sm font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.99]";
+
 const buttonVariants = {
   primary:
-    "bg-primary text-primary-foreground shadow-[0_10px_40px_-15px_rgba(125,211,252,0.65)] hover:shadow-[0_10px_45px_-12px_rgba(125,211,252,0.7)]",
+    "border-border/80 bg-foreground/90 text-background shadow-soft hover:bg-foreground",
   secondary:
-    "bg-slate-800/40 text-foreground hover:bg-slate-800/70 dark:bg-slate-800/60 dark:hover:bg-slate-700/70",
+    "border-border/70 bg-card text-foreground shadow-soft hover:bg-card/80",
   ghost:
-    "bg-transparent text-foreground hover:bg-white/10 dark:hover:bg-white/5",
+    "border-transparent bg-transparent text-foreground hover:border-border/60 hover:bg-surface/60",
 } satisfies Record<string, string>;
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -22,11 +25,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         type={type}
-        className={cn(
-          "inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2 text-sm font-medium transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-          buttonVariants[variant],
-          className,
-        )}
+        className={cn(baseButton, buttonVariants[variant], className)}
         {...props}
       />
     );
