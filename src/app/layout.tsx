@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Navbar } from "@/components/layout/navbar";
 import { ScrollProgressBar } from "@/components/layout/scroll-progress";
 import { Toaster } from "@/components/ui/toaster";
+import { LocaleProvider } from "@/context/locale-context";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 
@@ -71,37 +72,39 @@ export default function RootLayout({
           geistMono.variable,
         )}
       >
-        <ScrollProgressBar />
-        <div className="relative flex flex-1 flex-col">
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          <footer className="border-border/40 border-t">
-            <div className="mx-auto flex w-full max-w-[1200px] flex-col items-center justify-between gap-4 px-4 py-10 text-sm text-neutral-500 sm:px-6 md:flex-row md:py-12 dark:text-neutral-400">
-              <span>
-                &copy; {new Date().getFullYear()} Yunsu. All rights reserved.
-              </span>
-              <div className="flex items-center gap-4">
-                <a
-                  className="hover:text-primary transition"
-                  href="https://github.com/yunsux"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  GitHub
-                </a>
-                <a
-                  className="hover:text-primary transition"
-                  href="https://www.linkedin.com/in/yunsu"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  LinkedIn
-                </a>
+        <LocaleProvider>
+          <ScrollProgressBar />
+          <div className="relative flex flex-1 flex-col">
+            <Navbar />
+            <main className="flex-1">{children}</main>
+            <footer className="border-border/40 border-t">
+              <div className="mx-auto flex w-full max-w-[1200px] flex-col items-center justify-between gap-4 px-4 py-10 text-sm text-neutral-500 sm:px-6 md:flex-row md:py-12 dark:text-neutral-400">
+                <span>
+                  &copy; {new Date().getFullYear()} Yunsu. All rights reserved.
+                </span>
+                <div className="flex items-center gap-4">
+                  <a
+                    className="hover:text-primary transition"
+                    href="https://github.com/yunsux"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    GitHub
+                  </a>
+                  <a
+                    className="hover:text-primary transition"
+                    href="https://www.linkedin.com/in/yunsu"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    LinkedIn
+                  </a>
+                </div>
               </div>
+            </footer>
             </div>
-          </footer>
-        </div>
-        <Toaster />
+          <Toaster />
+        </LocaleProvider>
       </body>
     </html>
   );

@@ -7,6 +7,7 @@ import { SectionTitle } from "@/components/ui/section-title";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
+import { useLocale } from "@/context/locale-context";
 
 const sectionMotion = {
   initial: { opacity: 0, y: 40 },
@@ -30,6 +31,7 @@ type ContactFormValues = z.infer<typeof contactSchema>;
 
 export function ContactSection() {
   const { toast } = useToast();
+  const { translations } = useLocale();
   const {
     register,
     handleSubmit,
@@ -109,7 +111,7 @@ export function ContactSection() {
       {...sectionMotion}
     >
       <div className="space-y-6">
-        <SectionTitle>Let&apos;s build together</SectionTitle>
+        <SectionTitle>{translations.sections.contact.title}</SectionTitle>
         <p className="text-base leading-relaxed text-neutral-500 md:text-lg dark:text-neutral-400">
           Whether you&apos;re shipping a new product or levelling up an existing
           experience, I can help shape the front-end roadmap, motion, and DX
@@ -223,7 +225,7 @@ export function ContactSection() {
           </fieldset>
 
           <Button type="submit" className="w-full" disabled={isSubmitting}>
-            {isSubmitting ? "Sending..." : "Send message"}
+            {isSubmitting ? translations.contact.submitting : translations.contact.submitCta}
           </Button>
         </form>
       </Card>

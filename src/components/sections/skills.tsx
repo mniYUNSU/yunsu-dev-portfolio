@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { skills, type SkillCategory, type SkillLevel } from "@/data/skills";
 import { cn } from "@/lib/utils";
+import { useLocale } from "@/context/locale-context";
 
 const sectionMotion = {
   initial: { opacity: 0, y: 40 },
@@ -32,6 +33,7 @@ export function SkillsSection() {
   const [activeCategory, setActiveCategory] = useState<SkillCategory["category"]>(
     fallbackCategory?.category ?? "Frontend",
   );
+  const { translations } = useLocale();
 
   const activeSkills = useMemo(
     () => skills.find((group) => group.category === activeCategory) ?? fallbackCategory,
@@ -65,7 +67,8 @@ export function SkillsSection() {
       {...sectionMotion}
     >
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-        <SectionTitle>Toolkit</SectionTitle>
+        <SectionTitle>{translations.sections.skills.title}</SectionTitle>
+        <SectionTitle>{translations.sections.skills.title}</SectionTitle>
         <p className="max-w-xl text-base leading-relaxed text-neutral-500 md:text-lg md:leading-relaxed dark:text-neutral-400">
           Product-minded engineer centered on UI/UX craft, motion & performance budgets, and developer experience for
           fast-moving teams.

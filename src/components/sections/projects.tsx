@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { ExternalLinkIcon } from "@/components/ui/external-link-icon";
 import { useMediaQuery } from "@/lib/use-media-query";
 import { projects, type Project } from "@/data/projects";
+import { useLocale } from "@/context/locale-context";
 
 const sectionMotion = {
   initial: { opacity: 0, y: 40 },
@@ -23,6 +24,7 @@ export function ProjectsSection() {
   const isLgUp = useMediaQuery("(min-width: 1024px)");
   const revealDuration = isMdUp ? 0.55 : 0.38;
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const { translations } = useLocale();
 
   useEffect(() => {
     if (!selectedProject) {
@@ -61,7 +63,7 @@ export function ProjectsSection() {
         transition={{ duration: revealDuration, ease: [0.16, 1, 0.3, 1] }}
       >
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <SectionTitle>Selected work</SectionTitle>
+          <SectionTitle>{translations.sections.projects.title}</SectionTitle>
           <p className="max-w-xl text-base leading-relaxed text-neutral-500 md:text-lg md:leading-relaxed lg:text-xl dark:text-neutral-400">
             Close collaboration with product, design, and data teams to deliver measurable outcomes. Here are a few
             highlights from recent product cycles.
@@ -125,7 +127,7 @@ export function ProjectsSection() {
                         target="_blank"
                         rel="noreferrer"
                       >
-                        Live
+                        {translations.projects.viewProject}
                         <ExternalLinkIcon className="size-4" />
                       </Link>
                     )}

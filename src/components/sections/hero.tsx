@@ -5,6 +5,7 @@ import { motion, type HTMLMotionProps } from "framer-motion";
 import { Github, Linkedin } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
+import { useLocale } from "@/context/locale-context";
 import { useMediaQuery } from "@/lib/use-media-query";
 
 const sectionMotion = {
@@ -28,6 +29,7 @@ const socialLinks = [
 
 export function HeroSection() {
   const isMdUp = useMediaQuery("(min-width: 768px)");
+  const { translations } = useLocale();
 
   const headingVariants = useMemo(
     () => ({
@@ -111,13 +113,13 @@ export function HeroSection() {
             {[
               {
                 href: "#projects",
-                label: "View My Work",
+                label: translations.hero.primaryCta,
                 className:
                   "inline-flex items-center justify-center gap-2 rounded-xl bg-brand px-5 py-2 text-sm font-semibold text-brand-foreground shadow-soft transition duration-200 hover:shadow-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background md:text-base",
               },
               {
                 href: "#contact",
-                label: "Contact Me",
+                label: translations.hero.secondaryCta,
                 className:
                   "inline-flex items-center justify-center gap-2 rounded-xl border border-border/60 bg-surface/80 px-5 py-2 text-sm font-semibold text-foreground transition duration-200 hover:border-border/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background md:text-base",
               },

@@ -4,6 +4,7 @@ import { motion, type HTMLMotionProps } from "framer-motion";
 import { SectionTitle } from "@/components/ui/section-title";
 import { Card } from "@/components/ui/card";
 import { experienceTimeline } from "@/data/experience";
+import { useLocale } from "@/context/locale-context";
 
 const sectionMotion = {
   initial: { opacity: 0, y: 40 },
@@ -27,6 +28,7 @@ const formatDate = (value: string) => {
 };
 
 export function ExperienceSection() {
+  const { translations } = useLocale();
   return (
     <motion.section
       id="experience"
@@ -34,7 +36,7 @@ export function ExperienceSection() {
       {...sectionMotion}
     >
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-        <SectionTitle>Experience</SectionTitle>
+        <SectionTitle>{translations.sections.experience.title}</SectionTitle>
         <p className="max-w-xl text-base leading-relaxed text-neutral-500 md:text-lg md:leading-relaxed dark:text-neutral-400">
           Leadership across startups and growth-stage teams—balancing product strategy, motion systems, and developer
           experience.

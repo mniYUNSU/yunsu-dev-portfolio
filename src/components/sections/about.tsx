@@ -3,6 +3,7 @@
 import { motion, type HTMLMotionProps } from "framer-motion";
 import { SectionTitle } from "@/components/ui/section-title";
 import { Card } from "@/components/ui/card";
+import { useLocale } from "@/context/locale-context";
 import { useMediaQuery } from "@/lib/use-media-query";
 
 const sectionMotion = {
@@ -41,6 +42,7 @@ const techStack = [
 export function AboutSection() {
   const isMdUp = useMediaQuery("(min-width: 768px)");
   const isLgUp = useMediaQuery("(min-width: 1024px)");
+  const { translations } = useLocale();
 
   const introVariants = {
     hidden: { opacity: 0, y: isMdUp ? 26 : 16 },
@@ -76,7 +78,7 @@ export function AboutSection() {
     >
       <div className="space-y-8">
         <motion.div variants={introVariants} className="space-y-6">
-          <SectionTitle>Building delightful experiences</SectionTitle>
+          <SectionTitle>{translations.sections.about.title}</SectionTitle>
           <p className="text-base leading-relaxed font-medium text-neutral-600 md:text-lg md:leading-relaxed lg:text-xl dark:text-neutral-300">
             I translate intent into interfaces—partnering with design, product,
             and engineering to launch experiences that feel cohesive and

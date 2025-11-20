@@ -4,23 +4,31 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
+import { useLocale } from "@/context/locale-context";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
-  { id: "home", label: "Home" },
-  { id: "about", label: "About" },
-  { id: "projects", label: "Projects" },
-  { id: "skills", label: "Skills" },
-  { id: "experience", label: "Experience" },
-  { id: "contact", label: "Contact" },
+  { id: "home", labelKey: "home" },
+  { id: "about", labelKey: "about" },
+  { id: "projects", labelKey: "projects" },
+  { id: "skills", labelKey: "skills" },
+  { id: "experience", labelKey: "experience" },
+  { id: "contact", labelKey: "contact" },
 ] as const;
 
 const NAV_IDS = NAV_ITEMS.map((item) => item.id);
+
+const LANGUAGES = [
+  { code: "ko", label: "KO" },
+  { code: "ja", label: "JA" },
+  { code: "en", label: "EN" },
+] as const;
 
 export function Navbar() {
   // Breakpoints: mobile shows sheet menu, md reveals inline nav, lg keeps CTA persistent.
   const [hasScrolled, setHasScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { locale, setLocale, translations } = useLocale();
   const [activeSection, setActiveSection] = useState<
     (typeof NAV_ITEMS)[number]["id"]
   >(() => {
@@ -132,50 +140,72 @@ export function Navbar() {
           )}
         </button>
 
-        <nav
-          className="border-border/60 bg-background/70 relative ml-auto hidden overflow-x-auto rounded-full border px-1 py-1 shadow-[0_10px_30px_-25px_rgba(15,15,35,0.65)] md:block"
-          aria-label="Primary"
-        >
-          <ul className="flex items-center gap-1">
-            {NAV_ITEMS.map((item) => {
-              const isActive = activeSection === item.id;
+        <div className="ml-auto hidden items-center gap-4 md:flex">
+          <div className="border-border/60 bg-surface/80 flex rounded-full border px-1 py-0.5">
+            {LANGUAGES.map((language) => {
+              const isActive = locale === language.code;
               return (
-                <li key={item.id}>
-                  <Link
-                    href={`#${item.id}`}
-                    className={cn(
-                      "focus-visible:ring-brand/60 focus-visible:ring-offset-background relative block rounded-full px-3 py-1.5 text-sm font-medium transition focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
-                      isActive
-                        ? "text-brand"
-                        : "text-neutral-500 transition-colors dark:text-neutral-300",
-                    )}
-                    onClick={() => setActiveSection(item.id)}
-                  >
-                    {isActive && (
-                      <motion.span
-                        layoutId="active-nav-pill"
-                        className="bg-brand/15 absolute inset-0 -z-10 rounded-full"
-                        transition={{
-                          type: "spring",
-                          stiffness: 250,
-                          damping: 30,
-                        }}
-                      />
-                    )}
-                    {item.label}
-                  </Link>
-                </li>
+                <button
+                  key={language.code}
+                  type="button"
+                  className={cn(
+                    "rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                    isActive
+                      ? "bg-brand text-brand-foreground"
+                      : "text-neutral-500 hover:text-brand dark:text-neutral-300",
+                  )}
+                  onClick={() => setLocale(language.code)}
+                >
+                  {language.label}
+                </button>
               );
             })}
-          </ul>
-        </nav>
+          </div>
+          <nav
+            className="border-border/60 bg-background/70 relative hidden overflow-x-auto rounded-full border px-1 py-1 shadow-[0_10px_30px_-25px_rgba(15,15,35,0.65)] md:block"
+            aria-label="Primary"
+          >
+            <ul className="flex items-center gap-1">
+              {NAV_ITEMS.map((item) => {
+                const isActive = activeSection === item.id;
+                return (
+                  <li key={item.id}>
+                    <Link
+                      href={`#${item.id}`}
+                      className={cn(
+                        "focus-visible:ring-brand/60 focus-visible:ring-offset-background relative block rounded-full px-3 py-1.5 text-sm font-medium transition focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
+                        isActive
+                          ? "text-brand"
+                          : "text-neutral-500 transition-colors dark:text-neutral-300",
+                      )}
+                      onClick={() => setActiveSection(item.id)}
+                    >
+                      {isActive && (
+                        <motion.span
+                          layoutId="active-nav-pill"
+                          className="bg-brand/15 absolute inset-0 -z-10 rounded-full"
+                          transition={{
+                            type: "spring",
+                            stiffness: 250,
+                            damping: 30,
+                          }}
+                        />
+                      )}
+                      {translations.navbar.links[item.labelKey]}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+        </div>
 
         <div className="hidden shrink-0 sm:flex">
           <Link
             href="#contact"
             className="bg-brand text-brand-foreground shadow-soft hover:shadow-elevated focus-visible:ring-brand/70 focus-visible:ring-offset-background inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold transition duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
           >
-            Let&apos;s Talk
+            {translations.navbar.cta}
           </Link>
         </div>
       </div>
@@ -208,6 +238,26 @@ export function Navbar() {
                   Swipe down
                 </span>
               </div>
+              <div className="flex flex-wrap gap-2">
+                {LANGUAGES.map((language) => {
+                  const isActive = locale === language.code;
+                  return (
+                    <button
+                      key={language.code}
+                      type="button"
+                      className={cn(
+                        "flex-1 rounded-xl border px-4 py-2 text-sm font-semibold transition",
+                        isActive
+                          ? "border-brand bg-brand/10 text-brand"
+                          : "border-border/60 text-neutral-600 dark:text-neutral-200",
+                      )}
+                      onClick={() => setLocale(language.code)}
+                    >
+                      {language.label}
+                    </button>
+                  );
+                })}
+              </div>
               <ul className="flex flex-col gap-2">
                 {NAV_ITEMS.map((item) => {
                   const isActive = activeSection === item.id;
@@ -226,7 +276,7 @@ export function Navbar() {
                           setIsMenuOpen(false);
                         }}
                       >
-                        {item.label}
+                        {translations.navbar.links[item.labelKey]}
                       </Link>
                     </li>
                   );
@@ -237,7 +287,7 @@ export function Navbar() {
                 className="bg-brand text-brand-foreground shadow-soft hover:shadow-elevated focus-visible:ring-brand/70 focus-visible:ring-offset-background inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold transition duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Let&apos;s Talk
+                {translations.navbar.cta}
               </Link>
             </motion.nav>
           </motion.div>
