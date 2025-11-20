@@ -3,8 +3,9 @@
 import { useEffect, useState, type KeyboardEvent as ReactKeyboardEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { AnimatePresence, motion, type HTMLMotionProps } from "framer-motion";
-import { Github, X } from "lucide-react";
+import dynamic from "next/dynamic";
+import { AnimatePresence, motion } from "framer-motion";
+import { Github } from "lucide-react";
 import { SectionTitle } from "@/components/ui/section-title";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -12,12 +13,12 @@ import { ExternalLinkIcon } from "@/components/ui/external-link-icon";
 import { useMediaQuery } from "@/lib/use-media-query";
 import { projects, type Project } from "@/data/projects";
 import { useLocale } from "@/context/locale-context";
+import { sectionMotion } from "@/styles/animations";
 
-const sectionMotion = {
-  initial: { opacity: 0, y: 40 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-20% 0px -20% 0px" },
-} satisfies Partial<HTMLMotionProps<"section">>;
+const ProjectDetailModal = dynamic(
+  () => import("./projects-modal").then((mod) => mod.ProjectDetailModal),
+  { ssr: false },
+);
 
 export function ProjectsSection() {
   const isMdUp = useMediaQuery("(min-width: 768px)");
@@ -96,6 +97,7 @@ export function ProjectsSection() {
                     className="object-cover transition-transform duration-500 group-hover:scale-105 group-focus-visible:scale-105"
                     sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                     priority={index === 0}
+                    loading={index === 0 ? "eager" : "lazy"}
                   />
                 </div>
 
@@ -159,107 +161,9 @@ export function ProjectsSection() {
       </motion.section>
 
       <AnimatePresence>
-        {selectedProject && (
-          <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-background/70 backdrop-blur"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setSelectedProject(null)}
-          >
-            <motion.div
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="project-dialog-title"
-              className="border-border/60 bg-surface max-h-[85vh] w-[92%] max-w-3xl overflow-hidden rounded-3xl border shadow-[0_32px_80px_-40px_rgba(15,15,35,0.65)] sm:w-[88%]"
-              initial={{ opacity: 0, y: 28 }}
-              animate={{ opacity: 1, y: 0, transition: { duration: 0.25, ease: [0.16, 1, 0.3, 1] } }}
-              exit={{ opacity: 0, y: 24, transition: { duration: 0.2 } }}
-              onClick={(event) => event.stopPropagation()}
-            >
-              <div className="relative h-52 w-full overflow-hidden sm:h-64">
-                <Image
-                  src={selectedProject.image}
-                  alt={selectedProject.title}
-                  fill
-                  className="object-cover"
-                  sizes="(min-width: 1024px) 60vw, 100vw"
-                />
-                <button
-                  type="button"
-                  className="text-foreground absolute right-4 top-4 inline-flex size-9 items-center justify-center rounded-full border border-border/60 bg-background/80 transition hover:text-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                  onClick={() => setSelectedProject(null)}
-                  aria-label="Close project details"
-                >
-                  <X className="size-4" aria-hidden="true" />
-                </button>
-              </div>
-
-              <div className="space-y-6 overflow-y-auto p-6 sm:p-8">
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                  <div className="space-y-1">
-                    <h3 id="project-dialog-title" className="text-h3">
-                      {selectedProject.title}
-                    </h3>
-                    <p className="text-sm text-neutral-500 dark:text-neutral-400">
-                      {selectedProject.year} · {selectedProject.role}
-                    </p>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {selectedProject.tech.map((tech) => (
-                      <Badge key={tech} className="bg-brand/10 text-xs text-brand-600">
-                        {tech}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-
-                <p className="text-base leading-relaxed text-neutral-500 md:text-lg dark:text-neutral-400">
-                  {selectedProject.description}
-                </p>
-
-                <div className="space-y-3">
-                  <h4 className="text-sm font-semibold text-neutral-500 uppercase tracking-[0.28em] dark:text-neutral-400">
-                    Highlights
-                  </h4>
-                  <ul className="space-y-2 text-base leading-relaxed text-neutral-500 md:text-lg dark:text-neutral-300">
-                    {selectedProject.highlights.map((highlight) => (
-                      <li key={highlight} className="flex gap-3">
-                        <span className="mt-2 inline-block size-1.5 rounded-full bg-brand/60" aria-hidden="true" />
-                        <span>{highlight}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="flex flex-wrap items-center gap-4 pt-2">
-                  {selectedProject.links.live && (
-                    <Link
-                      href={selectedProject.links.live}
-                      className="inline-flex items-center gap-2 rounded-xl bg-brand px-4 py-2 text-sm font-semibold text-brand-foreground shadow-soft transition hover:shadow-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      Visit live site
-                      <ExternalLinkIcon className="size-4" />
-                    </Link>
-                  )}
-                  {selectedProject.links.github && (
-                    <Link
-                      href={selectedProject.links.github}
-                      className="inline-flex items-center gap-2 rounded-xl border border-border/60 px-4 py-2 text-sm font-semibold text-neutral-600 transition hover:border-border/80 hover:text-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background dark:text-neutral-200"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      View repository
-                      <Github className="size-4" aria-hidden />
-                    </Link>
-                  )}
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
+        {selectedProject ? (
+          <ProjectDetailModal project={selectedProject} onClose={() => setSelectedProject(null)} />
+        ) : null}
       </AnimatePresence>
     </>
   );

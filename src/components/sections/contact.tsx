@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, type HTMLMotionProps } from "framer-motion";
+import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { SectionTitle } from "@/components/ui/section-title";
@@ -8,13 +8,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { useLocale } from "@/context/locale-context";
-
-const sectionMotion = {
-  initial: { opacity: 0, y: 40 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-20% 0px -20% 0px" },
-  transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
-} satisfies Partial<HTMLMotionProps<"section">>;
+import { sectionMotion } from "@/styles/animations";
 
 const FORMSPREE_ENDPOINT =
   process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT ??

@@ -1,16 +1,15 @@
 "use client";
 
-import { motion, type HTMLMotionProps } from "framer-motion";
+import { motion } from "framer-motion";
 import { SectionTitle } from "@/components/ui/section-title";
 import { Card } from "@/components/ui/card";
 import { useLocale } from "@/context/locale-context";
 import { useMediaQuery } from "@/lib/use-media-query";
-
-const sectionMotion = {
-  initial: "hidden",
-  whileInView: "visible",
-  viewport: { once: true, margin: "-20% 0px -20% 0px" },
-} satisfies Partial<HTMLMotionProps<"section">>;
+import {
+  aboutIntroVariants,
+  aboutStaggerVariants,
+  sectionMotion,
+} from "@/styles/animations";
 
 const facts = [
   {
@@ -44,30 +43,8 @@ export function AboutSection() {
   const isLgUp = useMediaQuery("(min-width: 1024px)");
   const { translations } = useLocale();
 
-  const introVariants = {
-    hidden: { opacity: 0, y: isMdUp ? 26 : 16 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: isMdUp ? 0.55 : 0.38,
-        ease: [0.16, 1, 0.3, 1],
-      },
-    },
-  };
-
-  const staggerVariants = {
-    hidden: { opacity: 0, y: isMdUp ? 22 : 12 },
-    visible: (index: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: isMdUp ? 0.45 : 0.3,
-        delay: (isMdUp ? 0.18 : 0.14) + index * (isLgUp ? 0.1 : 0.08),
-        ease: [0.16, 1, 0.3, 1],
-      },
-    }),
-  };
+  const introVariants = aboutIntroVariants(isMdUp);
+  const staggerVariants = aboutStaggerVariants(isMdUp, isLgUp);
 
   // Breakpoints: mobile stays single column; md splits content/statistics; lg gives grid breathing room.
   return (

@@ -149,10 +149,10 @@ export function Navbar() {
                   key={language.code}
                   type="button"
                   className={cn(
-                    "rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                    "focus-visible:ring-brand/60 focus-visible:ring-offset-background rounded-full px-3 py-1 text-xs font-semibold tracking-wide uppercase transition focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
                     isActive
                       ? "bg-brand text-brand-foreground"
-                      : "text-neutral-500 hover:text-brand dark:text-neutral-300",
+                      : "hover:text-brand text-neutral-500 dark:text-neutral-300",
                   )}
                   onClick={() => setLocale(language.code)}
                 >

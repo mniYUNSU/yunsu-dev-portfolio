@@ -3,6 +3,8 @@ import { generateDefaultSeo, type DefaultSeoProps } from "next-seo/pages";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Navbar } from "@/components/layout/navbar";
 import { ScrollProgressBar } from "@/components/layout/scroll-progress";
+import { SmoothScrollHandler } from "@/components/layout/smooth-scroll-handler";
+import { ScrollToTopButton } from "@/components/layout/scroll-to-top";
 import { Toaster } from "@/components/ui/toaster";
 import { LocaleProvider } from "@/context/locale-context";
 import { cn } from "@/lib/utils";
@@ -73,6 +75,7 @@ export default function RootLayout({
         )}
       >
         <LocaleProvider>
+          <SmoothScrollHandler />
           <ScrollProgressBar />
           <div className="relative flex flex-1 flex-col">
             <Navbar />
@@ -102,7 +105,8 @@ export default function RootLayout({
                 </div>
               </div>
             </footer>
-            </div>
+          </div>
+          <ScrollToTopButton />
           <Toaster />
         </LocaleProvider>
       </body>

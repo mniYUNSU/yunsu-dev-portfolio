@@ -1,18 +1,18 @@
 "use client";
 
 import { useMemo } from "react";
-import { motion, type HTMLMotionProps } from "framer-motion";
+import { motion } from "framer-motion";
 import { Github, Linkedin } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { useLocale } from "@/context/locale-context";
 import { useMediaQuery } from "@/lib/use-media-query";
-
-const sectionMotion = {
-  initial: "hidden",
-  whileInView: "visible",
-  viewport: { once: true, margin: "-15% 0px -15% 0px" },
-} satisfies Partial<HTMLMotionProps<"section">>;
+import {
+  heroCtaVariants,
+  heroHeadingVariants,
+  heroSubcopyVariants,
+  sectionMotion,
+} from "@/styles/animations";
 
 const socialLinks = [
   {
@@ -31,52 +31,9 @@ export function HeroSection() {
   const isMdUp = useMediaQuery("(min-width: 768px)");
   const { translations } = useLocale();
 
-  const headingVariants = useMemo(
-    () => ({
-      hidden: { opacity: 0, y: isMdUp ? 28 : 18 },
-      visible: {
-        opacity: 1,
-        y: 0,
-        transition: {
-          duration: isMdUp ? 0.6 : 0.4,
-          ease: [0.16, 1, 0.3, 1],
-        },
-      },
-    }),
-    [isMdUp],
-  );
-
-  const subcopyVariants = useMemo(
-    () => ({
-      hidden: { opacity: 0, y: isMdUp ? 24 : 14 },
-      visible: {
-        opacity: 1,
-        y: 0,
-        transition: {
-          duration: isMdUp ? 0.55 : 0.38,
-          delay: 0.12,
-          ease: [0.16, 1, 0.3, 1],
-        },
-      },
-    }),
-    [isMdUp],
-  );
-
-  const ctaVariants = useMemo(
-    () => ({
-      hidden: { opacity: 0, y: isMdUp ? 24 : 12 },
-      visible: (index: number) => ({
-        opacity: 1,
-        y: 0,
-        transition: {
-          duration: isMdUp ? 0.45 : 0.3,
-          delay: (isMdUp ? 0.25 : 0.18) + index * (isMdUp ? 0.1 : 0.08),
-          ease: [0.16, 1, 0.3, 1],
-        },
-      }),
-    }),
-    [isMdUp],
-  );
+  const headingVariants = useMemo(() => heroHeadingVariants(isMdUp), [isMdUp]);
+  const subcopyVariants = useMemo(() => heroSubcopyVariants(isMdUp), [isMdUp]);
+  const ctaVariants = useMemo(() => heroCtaVariants(isMdUp), [isMdUp]);
 
   // Breakpoints: single-column stacks on mobile, md introduces two-column grid, lg widens spacing and media tile.
   return (
