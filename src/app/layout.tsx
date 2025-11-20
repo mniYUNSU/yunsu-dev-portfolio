@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { generateDefaultSeo, type DefaultSeoProps } from "next-seo/pages";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Navbar } from "@/components/layout/navbar";
@@ -22,6 +23,9 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
+const BASE_URL = "https://yunsu.dev";
+const PLAUSIBLE_DOMAIN = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
+
 const defaultSeo: DefaultSeoProps = {
   titleTemplate: "%s | Yunsu.dev",
   defaultTitle: "Yunsu.dev – Developer Portfolio",
@@ -30,11 +34,11 @@ const defaultSeo: DefaultSeoProps = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://yunsu.dev",
+    url: BASE_URL,
     siteName: "Yunsu.dev",
     images: [
       {
-        url: "https://yunsu.dev/og-image.png",
+        url: `${BASE_URL}/og/default.png`,
         width: 1200,
         height: 630,
         alt: "Yunsu – Developer Portfolio",
@@ -66,7 +70,17 @@ export default function RootLayout({
 
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
-      <head>{defaultSeoTags}</head>
+      <head>
+        {defaultSeoTags}
+        {PLAUSIBLE_DOMAIN ? (
+          <Script
+            defer
+            data-domain={PLAUSIBLE_DOMAIN}
+            src="https://plausible.io/js/script.js"
+            strategy="afterInteractive"
+          />
+        ) : null}
+      </head>
       <body
         className={cn(
           "bg-background text-foreground flex min-h-screen flex-col antialiased",
