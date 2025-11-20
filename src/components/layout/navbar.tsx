@@ -108,15 +108,13 @@ export function Navbar() {
   }, [isMenuOpen]);
 
   return (
-    <header
-      className={cn(
-        "border-border/40 sticky top-0 z-40 border-b transition-all duration-300",
-        hasScrolled
-          ? "bg-background/85 shadow-[0_12px_30px_-24px_rgba(15,15,35,0.65)] backdrop-blur"
-          : "bg-background/70",
-      )}
-    >
-      <div className="mx-auto flex w-full max-w-[1200px] items-center justify-between gap-4 px-4 py-3 sm:px-6 md:py-4">
+    <header className="sticky top-4 z-50 px-4">
+      <div
+        className={cn(
+          "mx-auto flex w-full max-w-[1200px] items-center justify-between gap-4 rounded-2xl border border-white/30 bg-white/55 px-4 py-3 shadow-window backdrop-blur-[32px] transition-all duration-500 dark:border-white/10 dark:bg-white/10 sm:px-6 md:py-4",
+          hasScrolled ? "shadow-window" : "shadow-soft",
+        )}
+      >
         <Link
           href="#home"
           className="group text-foreground hover:text-brand inline-flex items-center gap-2 text-sm font-semibold tracking-tight transition"
@@ -129,7 +127,7 @@ export function Navbar() {
 
         <button
           type="button"
-          className="text-foreground focus-visible:ring-brand/60 focus-visible:ring-offset-background border-border/50 bg-surface/80 hover:text-brand inline-flex size-11 items-center justify-center rounded-xl border transition focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none md:hidden"
+          className="text-foreground focus-visible:ring-brand/60 focus-visible:ring-offset-background inline-flex size-11 items-center justify-center rounded-xl border border-white/40 bg-white/50 transition hover:text-brand focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none md:hidden dark:border-white/10 dark:bg-white/10"
           aria-label={isMenuOpen ? "Close navigation" : "Open navigation"}
           onClick={() => setIsMenuOpen((prev) => !prev)}
         >
@@ -141,7 +139,7 @@ export function Navbar() {
         </button>
 
         <div className="ml-auto hidden items-center gap-4 md:flex">
-          <div className="border-border/60 bg-surface/80 flex rounded-full border px-1 py-0.5">
+          <div className="flex rounded-full border border-white/25 bg-white/40 px-1 py-0.5 shadow-soft backdrop-blur-xl dark:border-white/10 dark:bg-white/10">
             {LANGUAGES.map((language) => {
               const isActive = locale === language.code;
               return (
@@ -149,10 +147,10 @@ export function Navbar() {
                   key={language.code}
                   type="button"
                   className={cn(
-                    "focus-visible:ring-brand/60 focus-visible:ring-offset-background rounded-full px-3 py-1 text-xs font-semibold tracking-wide uppercase transition focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
+                    "rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                     isActive
                       ? "bg-brand text-brand-foreground"
-                      : "hover:text-brand text-neutral-500 dark:text-neutral-300",
+                      : "text-neutral-500 hover:text-brand dark:text-neutral-300",
                   )}
                   onClick={() => setLocale(language.code)}
                 >
@@ -162,7 +160,7 @@ export function Navbar() {
             })}
           </div>
           <nav
-            className="border-border/60 bg-background/70 relative hidden overflow-x-auto rounded-full border px-1 py-1 shadow-[0_10px_30px_-25px_rgba(15,15,35,0.65)] md:block"
+            className="relative hidden overflow-x-auto rounded-full border border-white/25 bg-white/35 px-1 py-1 shadow-soft backdrop-blur-2xl dark:border-white/10 dark:bg-white/5 md:block"
             aria-label="Primary"
           >
             <ul className="flex items-center gap-1">
@@ -203,7 +201,7 @@ export function Navbar() {
         <div className="hidden shrink-0 sm:flex">
           <Link
             href="#contact"
-            className="bg-brand text-brand-foreground shadow-soft hover:shadow-elevated focus-visible:ring-brand/70 focus-visible:ring-offset-background inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold transition duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+            className="inline-flex items-center justify-center gap-2 rounded-2xl border border-white/30 bg-white/40 px-4 py-2 text-sm font-semibold text-foreground shadow-soft transition duration-200 hover:bg-white/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background dark:border-white/10 dark:bg-white/10"
           >
             {translations.navbar.cta}
           </Link>
@@ -212,22 +210,22 @@ export function Navbar() {
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            className="bg-background/60 fixed inset-0 z-30 backdrop-blur-sm md:hidden"
+            className="fixed inset-0 z-40 bg-background/55 backdrop-blur-[28px] md:hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setIsMenuOpen(false)}
           >
             <motion.nav
-              className="border-border/60 bg-surface/95 absolute top-20 right-4 flex w-[88%] max-w-xs flex-col gap-2 rounded-2xl border p-6 shadow-[0_32px_80px_-40px_rgba(15,15,35,0.7)]"
+              className="absolute right-4 top-20 flex w-[88%] max-w-xs flex-col gap-3 rounded-3xl border border-white/25 bg-white/20 p-6 shadow-window backdrop-blur-[32px] dark:border-white/10 dark:bg-white/5"
               aria-label="Mobile navigation"
               initial={{ opacity: 0, x: 24 }}
               animate={{
                 opacity: 1,
                 x: 0,
-                transition: { duration: 0.22, ease: [0.33, 1, 0.68, 1] },
+                transition: { duration: 0.3, ease: [0.19, 1, 0.22, 1] },
               }}
-              exit={{ opacity: 0, x: 24, transition: { duration: 0.18 } }}
+              exit={{ opacity: 0, x: 24, transition: { duration: 0.2 } }}
               onClick={(event) => event.stopPropagation()}
             >
               <div className="flex items-center justify-between">

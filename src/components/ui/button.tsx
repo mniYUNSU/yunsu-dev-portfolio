@@ -3,13 +3,16 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
+const baseButton =
+  "relative isolate inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-2.5 text-sm font-semibold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.99]";
+
 const buttonVariants = {
   primary:
-    "bg-primary text-primary-foreground shadow-[0_10px_40px_-15px_rgba(125,211,252,0.65)] hover:shadow-[0_10px_45px_-12px_rgba(125,211,252,0.7)]",
+    "text-slate-900 shadow-window border border-white/40 bg-[linear-gradient(135deg,rgba(255,255,255,0.92),rgba(120,180,255,0.25))] dark:text-white dark:border-white/15 dark:bg-[linear-gradient(135deg,rgba(255,255,255,0.08),rgba(33,59,120,0.55))]",
   secondary:
-    "bg-slate-800/40 text-foreground hover:bg-slate-800/70 dark:bg-slate-800/60 dark:hover:bg-slate-700/70",
+    "text-foreground border border-white/30 bg-white/30 shadow-soft backdrop-blur-xl hover:bg-white/40 dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10",
   ghost:
-    "bg-transparent text-foreground hover:bg-white/10 dark:hover:bg-white/5",
+    "text-foreground border border-transparent bg-transparent hover:border-white/20 hover:bg-white/10 dark:hover:bg-white/5",
 } satisfies Record<string, string>;
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -22,11 +25,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         type={type}
-        className={cn(
-          "inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2 text-sm font-medium transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-          buttonVariants[variant],
-          className,
-        )}
+        className={cn(baseButton, buttonVariants[variant], className)}
         {...props}
       />
     );

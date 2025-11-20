@@ -85,6 +85,7 @@ export function ProjectsSection() {
               }}
             >
               <Card
+                showWindowControls={false}
                 tabIndex={0}
                 onKeyDown={(event) => handleCardKeyDown(event, project)}
                 className="group flex h-full translate-y-0 flex-col overflow-hidden p-0 transition-transform duration-200 hover:-translate-y-1 focus-visible:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"

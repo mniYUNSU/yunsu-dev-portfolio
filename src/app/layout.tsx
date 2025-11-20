@@ -1,27 +1,13 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import { generateDefaultSeo, type DefaultSeoProps } from "next-seo/pages";
-import { Geist, Geist_Mono } from "next/font/google";
 import { Navbar } from "@/components/layout/navbar";
 import { ScrollProgressBar } from "@/components/layout/scroll-progress";
 import { SmoothScrollHandler } from "@/components/layout/smooth-scroll-handler";
 import { ScrollToTopButton } from "@/components/layout/scroll-to-top";
 import { Toaster } from "@/components/ui/toaster";
 import { LocaleProvider } from "@/context/locale-context";
-import { cn } from "@/lib/utils";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-  display: "swap",
-});
 
 const BASE_URL = "https://yunsu.dev";
 const PLAUSIBLE_DOMAIN = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
@@ -81,13 +67,7 @@ export default function RootLayout({
           />
         ) : null}
       </head>
-      <body
-        className={cn(
-          "bg-background text-foreground flex min-h-screen flex-col antialiased",
-          geistSans.variable,
-          geistMono.variable,
-        )}
-      >
+      <body className="bg-background text-foreground flex min-h-screen flex-col antialiased">
         <LocaleProvider>
           <SmoothScrollHandler />
           <ScrollProgressBar />

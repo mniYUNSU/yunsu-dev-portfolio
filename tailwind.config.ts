@@ -55,6 +55,20 @@ const config = {
           900: "rgb(var(--neutral-900) / <alpha-value>)",
           950: "rgb(var(--neutral-950) / <alpha-value>)",
         },
+        mac: {
+          window: "rgb(var(--window) / <alpha-value>)",
+          sidebar: "rgb(var(--sidebar-gray) / <alpha-value>)",
+          chrome: {
+            red: "rgb(var(--mac-traffic-red) / <alpha-value>)",
+            yellow: "rgb(var(--mac-traffic-yellow) / <alpha-value>)",
+            green: "rgb(var(--mac-traffic-green) / <alpha-value>)",
+          },
+          accent: {
+            blue: "rgb(var(--accent-blue) / <alpha-value>)",
+            purple: "rgb(var(--accent-purple) / <alpha-value>)",
+            green: "rgb(var(--accent-green) / <alpha-value>)",
+          },
+        },
       },
       borderRadius: {
         "2xl": "var(--radius-2xl)",
@@ -77,8 +91,9 @@ const config = {
         36: "9rem",
       },
       boxShadow: {
-        soft: "0 25px 50px -25px rgba(15, 23, 42, 0.12)",
-        elevated: "0 35px 65px -30px rgba(15, 23, 42, 0.2)",
+        soft: "var(--shadow-soft)",
+        elevated: "var(--shadow-window)",
+        window: "0 50px 120px -60px rgba(4, 6, 18, 0.6)",
       },
     },
   },
