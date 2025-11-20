@@ -156,3 +156,35 @@
     @apply text-sm leading-relaxed text-neutral-500 dark:text-neutral-400;
   }
 }
+
+@layer utilities {
+  @keyframes toast-slide-in {
+    from {
+      transform: translateX(calc(100% + 1.5rem));
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes toast-slide-out {
+    from {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(calc(100% + 1.5rem));
+      opacity: 0;
+    }
+  }
+
+  .toast-enter {
+    animation: toast-slide-in 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .toast-exit {
+    animation: toast-slide-out 0.3s cubic-bezier(0.7, 0, 0.84, 0) forwards;
+  }
+}

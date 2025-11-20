@@ -1,12 +1,12 @@
 "use client";
 
 import { motion, type HTMLMotionProps } from "framer-motion";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { SectionTitle } from "@/components/ui/section-title";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 
 const sectionMotion = {
   initial: { opacity: 0, y: 40 },
@@ -15,17 +15,21 @@ const sectionMotion = {
   transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
 } satisfies Partial<HTMLMotionProps<"section">>;
 
+const FORMSPREE_ENDPOINT =
+  process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT ??
+  "https://formspree.io/f/yourFormId";
+
 const contactSchema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Enter a valid email"),
   message: z.string().min(10, "Share a bit more context (min 10 characters)"),
+  honeypot: z.string().max(0).optional(),
 });
 
 type ContactFormValues = z.infer<typeof contactSchema>;
 
 export function ContactSection() {
-  const [status, setStatus] = useState<"idle" | "submitted">("idle");
-
+  const { toast } = useToast();
   const {
     register,
     handleSubmit,
@@ -33,19 +37,13 @@ export function ContactSection() {
     setError,
     formState: { errors, isSubmitting },
   } = useForm<ContactFormValues>({
-    defaultValues: {
-      name: "",
-      email: "",
-      message: "",
-    },
+    defaultValues: { name: "", email: "", message: "", honeypot: "" },
   });
 
   const onSubmit = handleSubmit(async (values) => {
-    setStatus("idle");
-    const result = contactSchema.safeParse(values);
-    if (!result.success) {
-      // surface schema issues back through react-hook-form to drive inline errors.
-      result.error.issues.forEach((issue) => {
+    const parsed = contactSchema.safeParse(values);
+    if (!parsed.success) {
+      parsed.error.issues.forEach((issue) => {
         const field = issue.path[0] as keyof ContactFormValues | undefined;
         if (!field) return;
         setError(field, { type: "manual", message: issue.message });
@@ -53,36 +51,92 @@ export function ContactSection() {
       return;
     }
 
-    // Simulate async submission while we wire up a backend later.
-    await new Promise((resolve) => setTimeout(resolve, 800));
-    setStatus("submitted");
-    reset();
+    // Honeypot triggered
+    if (parsed.data.honeypot) {
+      toast({
+        variant: "destructive",
+        title: "Something went wrong",
+        description: "Please reload the page and try again.",
+      });
+      return;
+    }
+
+    try {
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name: parsed.data.name,
+          email: parsed.data.email,
+          message: parsed.data.message,
+        }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
+        throw new Error(
+          data?.message ??
+            "Unable to send message right now. Try email instead.",
+        );
+      }
+
+      toast({
+        title: "Thanks! I’ll get back to you soon.",
+        description: "Expect a reply within 1–2 business days.",
+      });
+      reset();
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Submission failed",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Please email me directly at hello@yunsu.dev.",
+      });
+    }
   });
+
+  const errorText = (field: keyof ContactFormValues) => errors[field]?.message;
 
   return (
     <motion.section
       id="contact"
-      className="mainComponentWrapper grid gap-10 lg:grid-cols-[1fr_1fr]"
+      className="mx-auto grid w-full max-w-[1200px] gap-10 px-4 py-16 sm:px-6 md:py-24 lg:grid-cols-[1fr_1fr]"
       {...sectionMotion}
     >
       <div className="space-y-6">
         <SectionTitle>Let&apos;s build together</SectionTitle>
-        <p className="text-lead max-w-xl">
+        <p className="text-base leading-relaxed text-neutral-500 md:text-lg dark:text-neutral-400">
           Whether you&apos;re shipping a new product or levelling up an existing
-          experience, I can help you bring clarity to your front-end roadmap.
-          Drop a message and I&apos;ll be in touch shortly.
+          experience, I can help shape the front-end roadmap, motion, and DX
+          strategy. Prefer email?{" "}
+          <a
+            href="mailto:hello@yunsu.dev"
+            className="text-brand font-semibold underline-offset-4 hover:underline"
+          >
+            hello@yunsu.dev
+          </a>
         </p>
-        {status === "submitted" ? (
-          <Card className="border-brand/40 bg-brand/10 text-brand border p-6 text-sm">
-            Thanks! Your message is on its way. I&apos;ll respond within 1-2
-            business days.
-          </Card>
-        ) : null}
       </div>
 
       <Card className="p-8">
         <form className="space-y-6" onSubmit={onSubmit} noValidate>
-          <div className="space-y-2">
+          <div className="sr-only" aria-hidden="true">
+            <label htmlFor="company">Company</label>
+            <input
+              id="company"
+              type="text"
+              tabIndex={-1}
+              autoComplete="off"
+              {...register("honeypot")}
+            />
+          </div>
+
+          <fieldset className="space-y-2">
             <label
               className="text-foreground text-sm font-semibold"
               htmlFor="name"
@@ -92,19 +146,26 @@ export function ContactSection() {
             <input
               id="name"
               type="text"
+              autoComplete="name"
               {...register("name")}
+              aria-invalid={Boolean(errors.name)}
+              aria-describedby={errors.name ? "name-error" : undefined}
               className="border-border/60 bg-background/70 text-foreground focus:border-brand focus:ring-brand/70 w-full rounded-xl border px-4 py-2 text-sm transition outline-none focus:ring-1"
               placeholder="Jane Doe"
               disabled={isSubmitting}
             />
-            {errors.name ? (
-              <p className="text-brand text-xs font-medium">
-                {errors.name.message}
+            {errorText("name") ? (
+              <p
+                id="name-error"
+                role="status"
+                className="text-brand text-xs font-medium"
+              >
+                {errorText("name")}
               </p>
             ) : null}
-          </div>
+          </fieldset>
 
-          <div className="space-y-2">
+          <fieldset className="space-y-2">
             <label
               className="text-foreground text-sm font-semibold"
               htmlFor="email"
@@ -114,20 +175,26 @@ export function ContactSection() {
             <input
               id="email"
               type="email"
+              autoComplete="email"
               {...register("email")}
+              aria-invalid={Boolean(errors.email)}
+              aria-describedby={errors.email ? "email-error" : undefined}
               className="border-border/60 bg-background/70 text-foreground focus:border-brand focus:ring-brand/70 w-full rounded-xl border px-4 py-2 text-sm transition outline-none focus:ring-1"
               placeholder="you@example.com"
-              autoComplete="email"
               disabled={isSubmitting}
             />
-            {errors.email ? (
-              <p className="text-brand text-xs font-medium">
-                {errors.email.message}
+            {errorText("email") ? (
+              <p
+                id="email-error"
+                role="status"
+                className="text-brand text-xs font-medium"
+              >
+                {errorText("email")}
               </p>
             ) : null}
-          </div>
+          </fieldset>
 
-          <div className="space-y-2">
+          <fieldset className="space-y-2">
             <label
               className="text-foreground text-sm font-semibold"
               htmlFor="message"
@@ -138,16 +205,22 @@ export function ContactSection() {
               id="message"
               rows={4}
               {...register("message")}
+              aria-invalid={Boolean(errors.message)}
+              aria-describedby={errors.message ? "message-error" : undefined}
               className="border-border/60 bg-background/70 text-foreground focus:border-brand focus:ring-brand/70 w-full rounded-xl border px-4 py-2 text-sm transition outline-none focus:ring-1"
               placeholder="Share goals, timelines, and what success looks like."
               disabled={isSubmitting}
             />
-            {errors.message ? (
-              <p className="text-brand text-xs font-medium">
-                {errors.message.message}
+            {errorText("message") ? (
+              <p
+                id="message-error"
+                role="status"
+                className="text-brand text-xs font-medium"
+              >
+                {errorText("message")}
               </p>
             ) : null}
-          </div>
+          </fieldset>
 
           <Button type="submit" className="w-full" disabled={isSubmitting}>
             {isSubmitting ? "Sending..." : "Send message"}

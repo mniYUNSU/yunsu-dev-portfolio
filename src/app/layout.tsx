@@ -3,6 +3,7 @@ import { generateDefaultSeo, type DefaultSeoProps } from "next-seo/pages";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Navbar } from "@/components/layout/navbar";
 import { ScrollProgressBar } from "@/components/layout/scroll-progress";
+import { Toaster } from "@/components/ui/toaster";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 
@@ -100,6 +101,7 @@ export default function RootLayout({
             </div>
           </footer>
         </div>
+        <Toaster />
       </body>
     </html>
   );
